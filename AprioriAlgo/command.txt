@@ -1,0 +1,1 @@
+"IBM Quest Data Generator.exe" lit -ntrans 1 -tlen 5 -nitems 1 -npats 20 -fname output
