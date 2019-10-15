@@ -27,12 +27,15 @@ class Apriori():
     def __remove_item(self, ck):
         '''
         remove those item which dose not fullfil min support count
+        return a new candidate sets and clear old ones
         Parameter:
-            ck(set) : candidate sets
-        return : None
+            ck(list of sets) : candidate sets
+        return : candidates which elements fulfill min support count
         '''
-
-
+        newck = [ item for item in ck if not self.__count_support(item) < self.__min_sup]
+        ck.clear()
+        return newck
+                
     def __join(self):
         '''
 
