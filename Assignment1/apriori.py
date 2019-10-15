@@ -39,13 +39,42 @@ class Apriori():
                 
     def __gencandidate(self, lk_1, k):
         '''
-        reveive k-1 itemsets and return k itemsets candidate
+        receive k-1 itemsets and return k itemsets candidate
         Parameter :
             lk_1(list of sets) : k-1 itemsets
             k(int) : 
         Return :
             ck ( list of sets ) : k itemsets
         '''
+        #-------------------------------- inner function ----------------------
+        def find_k1_subset(item, k):
+            '''
+            Helper function to find k-1 subset of items 
+            Parameter :
+                item(set)
+                k(int)
+            Return :
+                k_1_subset(list of sets) : k-1 subset of item
+            '''
+            return list(itertools.combinations(item, k-1))
+        
+        def pruned(lk_1, item, k):
+            '''
+            Check item should be pruned or not
+            Parameter:
+                lk_1(list of sets) : k-1 itemsets
+                item(set) : item in K-candidate
+                k(int)
+            Return:
+                Boolean: True means this item should be pruned
+            '''
+            k1_subset = find_k1_subset(item, k)
+            for i in k1_subset:
+                if i not in lk_1:
+                    return True
+            return False
+        #-------------------------------- inner function ----------------------
+
         ck = list(set())
         i = 0
         j = i+1
@@ -58,6 +87,8 @@ class Apriori():
                 j=j+1
             i=i+1
         # prune
+        ck = [ item for item in ck if not pruned(lk_1, item, k) ]
+        # check support count 
 
 
         
@@ -90,4 +121,4 @@ class Apriori():
         k = 2
         while len(Lk_1) != 0:
             # generate Ck
-            pass
+            self.__gencandidate(Lk_1, k)
