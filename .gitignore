@@ -2,4 +2,5 @@
 /Assignment1/*.exe
 /.DS_Store
 /Assignment1/.DS_Store
-/Assignment1/venv
+venv
+/.vscode
