@@ -88,9 +88,7 @@ class Apriori():
             i=i+1
         # prune
         ck = [ item for item in ck if not pruned(lk_1, item, k) ]
-        # check support count 
-
-
+        return ck
         
     def Get_Candidates(self):
         '''
@@ -121,5 +119,7 @@ class Apriori():
         k = 2
         while len(Lk_1) != 0:
             # generate Ck
-            self.__gencandidate(Lk_1, k)
-
+            Ck = self.__gencandidate(Lk_1, k)
+            # check support count fullfillment
+            Ck = self.__remove_item(Ck)
+            
