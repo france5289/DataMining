@@ -8,3 +8,18 @@ class Apriori():
         '''
         self.__DB = DB.copy() # shallow copy transaction database
         self.__Candidates =  list(set())
+
+    def Get_Candidates(self):
+        '''
+        Getter of Candidates
+        '''
+        return self.__Candidates
+
+    def Run_Apriori(self, min_sup):
+        '''
+        Public function to run apriori algo to generate candidates
+        Parameter : 
+            min_sup(int) : minimum support count
+        Return :
+            None
+        '''
