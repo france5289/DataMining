@@ -8,7 +8,7 @@ class Apriori():
         '''
         self.__DB = DB.copy() # shallow copy transaction database
         self.__Candidates =  list(set())
-        self.__min_sup = 0
+        self.__min_sup_count = 0
 
     def __count_support(self, item):
         '''
@@ -32,14 +32,24 @@ class Apriori():
             ck(list of sets) : candidate sets
         return : candidates which elements fulfill min support count
         '''
-        newck = [ item for item in ck if not self.__count_support(item) < self.__min_sup]
+        newck = [ item for item in ck if not self.__count_support(item) < self.__min_sup_count]
         ck.clear()
         return newck
                 
-    def __join(self):
+    def __join(self, lk, k):
+        '''
+        join L_k
         '''
 
+    def __gencandidate(self, lk_1):
         '''
+        reveive k-1 itemsets and return k itemsets candidate
+        Parameter :
+            lk_1(list of sets) : k-1 itemsets
+        Return :
+            ck ( list of sets ) : k itemsets
+        '''
+
 
     def Get_Candidates(self):
         '''
@@ -57,13 +67,17 @@ class Apriori():
         Return :
             None
         '''
-        self.__min_sup = min_sup
-        Lk = list(set()) 
-        Ck = list(set())
+        self.__min_sup_count = int(min_sup * len(self.__DB))
+        Lk_1 = list(set()) # frequent k-1 itemsets
+        Lk = list(set()) # frequent k itemsets
+        Ck = list(set()) # k-itemset candidates
         L1 = set()
         for item in self.__DB.values():
             if item not in L1:
                 L1 = L1.union(item)
         L1 = [ {i} for i in L1 ]
-        L1 = self.__remove_item(L1)
-        
+        Lk_1 = self.__remove_item(L1)
+        k = 2
+        while len(Lk_1) != 0:
+            # generate Ck
+            pass
