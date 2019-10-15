@@ -77,7 +77,7 @@ class Apriori():
             Return :
                 k_1_subset(list of sets) : k-1 subset of item
             '''
-            return list(itertools.combinations(item, k-1))
+            return  [ set(i) for i in itertools.combinations(item, k-1)]
         
         def pruned(lk_1, item, k):
             '''
@@ -107,6 +107,7 @@ class Apriori():
                     ck.append(temp)
                 j=j+1
             i=i+1
+            j=i+1
         # prune
         ck = [ item for item in ck if not pruned(lk_1, item, k) ]
         return ck
@@ -132,9 +133,18 @@ class Apriori():
         L1 = [ {i} for i in L1 ]
         Lk_1 = self.__remove_item(L1)
         k = 2
+        self.__update_FreqItemsets(Lk_1)
         while len(Lk_1) != 0:
             # generate Ck
             Ck = self.__gencandidate(Lk_1, k)
             # check support count fullfillment
             Lk = self.__remove_item(Ck)
             self.__update_FreqItemsets(Lk)
+            Lk_1 = Lk
+            k = k + 1
+
+if __name__ == '__main__':
+    DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
+    a = Apriori(DB)
+    a.Run_Apriori(0.5)
+    print(a.Get_FreqItemsets())
