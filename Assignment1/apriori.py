@@ -1,5 +1,6 @@
 import IBMReader
 import KaggleReader
+import itertools
 class Apriori():
     def __init__(self, DB):
         '''
