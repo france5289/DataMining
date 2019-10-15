@@ -9,6 +9,16 @@ class Apriori():
         self.__DB = DB.copy() # shallow copy transaction database
         self.__Candidates =  list(set())
 
+    def __count_support(self, ck):
+        '''
+        receive a item  and count support count of each item
+        Parameter : 
+            ck(set) : an item 
+        Return:
+            supcnt(int) : support count of input item
+        '''
+
+    
 
     def Get_Candidates(self):
         '''
