@@ -2,7 +2,7 @@ def DataReader( filename ):
     '''
     Helper function to read IBM Quest Synthetic data.
     It receive a filename and return a dictionary 
-    { Transaction ID : set( customer ID, Item ID ) }
+    { Transaction ID : set( Item ID ) }
     Parameter : 
         filename (str) : data filename (ex: 'input.data', 'input.csv')
     Return value:
@@ -13,11 +13,15 @@ def DataReader( filename ):
         for line in f:
             obj = line.split()
             TID = obj[1]
-            customerID = obj[0]
-            item = obj[2]
-            value = set()
-            value.update([customerID, item])
-            transactions.update(zip(TID, value))
-
+            ItemID = obj[2]
+            if TID in transactions: # check key TID exist or not
+                transactions[TID].update(ItemID)
+            else: # key value pair dosen't exist then update dictionary 
+                transactions.update(zip(TID, set(ItemID)))    
     return transactions        
 
+if __name__ == '__main__':
+    filename = input('Please enter entire filename:\n')
+    DB = DataReader(filename)
+    for item in DB.items():
+        print(item)
