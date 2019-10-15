@@ -8,8 +8,18 @@ class Apriori():
         it should receive a ditctionary which store transaction database
         '''
         self.__DB = DB.copy() # shallow copy transaction database
-        self.__Candidates =  list(set())
+        self.__FreqItemsets =  list()
         self.__min_sup_count = 0
+
+    def __update_FreqItemsets(self, Lk):
+        '''
+        append Lk into freqent itemsets
+        Parameter:
+            Lk(list of sets) : frequent k itemsets
+        Return: None
+        '''
+        for item in Lk:
+            self.__FreqItemsets.append(item)
 
     def __count_support(self, item):
         '''
@@ -96,7 +106,7 @@ class Apriori():
         Parameter : None
         Return : a list of sets
         '''
-        return self.__Candidates
+        return self.__FreqItemsets
 
     def Run_Apriori(self, min_sup):
         '''
@@ -107,8 +117,8 @@ class Apriori():
             None
         '''
         self.__min_sup_count = int(min_sup * len(self.__DB))
-        Lk_1 = list(set()) # frequent k-1 itemsets
-        Lk = list(set()) # frequent k itemsets
+        Lk_1 = list(set()) # frequent k-1 itemset
+        Lk = list(set()) # frequent k itemset
         Ck = list(set()) # k-itemset candidates
         L1 = set()
         for item in self.__DB.values():
@@ -121,5 +131,5 @@ class Apriori():
             # generate Ck
             Ck = self.__gencandidate(Lk_1, k)
             # check support count fullfillment
-            Ck = self.__remove_item(Ck)
-
+            Lk = self.__remove_item(Ck)
+            self.__update_FreqItemsets(Lk)
