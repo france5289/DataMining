@@ -17,7 +17,7 @@ def DataReader( filename ):
             if TID in transactions: # check key TID exist or not
                 transactions[TID].update(ItemID)
             else: # key value pair dosen't exist then update dictionary 
-                transactions.update(zip(TID, set(ItemID)))    
+                transactions.update({TID : set(ItemID)})    
     return transactions        
 
 if __name__ == '__main__':
