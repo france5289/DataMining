@@ -65,4 +65,5 @@ class Apriori():
             if item not in L1:
                 L1 = L1.union(item)
         L1 = [ {i} for i in L1 ]
+        L1 = self.__remove_item(L1)
         
