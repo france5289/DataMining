@@ -37,8 +37,6 @@ class Apriori():
         ck.clear()
         return newck
                 
-
-
     def __gencandidate(self, lk_1, k):
         '''
         reveive k-1 itemsets and return k itemsets candidate
@@ -55,7 +53,7 @@ class Apriori():
         while i < len(lk_1):
             while j < len(lk_1):
                 temp = lk_1[i].union(lk_1[j])
-                if ( temp not in ck ) and ( len(lk_1[i].intersection(lk_1[j])) != k-2 ) :
+                if ( temp not in ck ) and ( len(lk_1[i].intersection(lk_1[j])) == k-2 ) :
                     ck.append(temp)
                 j=j+1
             i=i+1
