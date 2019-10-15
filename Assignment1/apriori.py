@@ -8,6 +8,7 @@ class Apriori():
         '''
         self.__DB = DB.copy() # shallow copy transaction database
         self.__Candidates =  list(set())
+        self.__min_sup = 0
 
     def __count_support(self, item):
         '''
@@ -53,6 +54,7 @@ class Apriori():
         Return :
             None
         '''
+        self.__min_sup = min_sup
         Lk = list(set()) 
         Ck = list(set())
         L1 = set()
