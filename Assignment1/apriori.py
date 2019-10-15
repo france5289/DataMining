@@ -100,7 +100,7 @@ class Apriori():
         ck = [ item for item in ck if not pruned(lk_1, item, k) ]
         return ck
         
-    def Get_Candidates(self):
+    def Get_FreqItemsets(self):
         '''
         Getter of Candidates
         Parameter : None
