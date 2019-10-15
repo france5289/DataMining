@@ -12,6 +12,8 @@ class Apriori():
     def Get_Candidates(self):
         '''
         Getter of Candidates
+        Parameter : None
+        Return : a list of sets
         '''
         return self.__Candidates
 
