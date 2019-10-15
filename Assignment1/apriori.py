@@ -17,7 +17,12 @@ class Apriori():
         Return:
             supcnt(int) : support count of input item
         '''
-
+        supcnt = 0
+        for item in self.__DB.values():
+            if ck in item:
+                supcnt = supcnt + 1
+        
+        return supcnt
     
 
     def Get_Candidates(self):
