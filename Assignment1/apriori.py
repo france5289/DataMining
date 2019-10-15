@@ -9,6 +9,7 @@ class Apriori():
         self.__DB = DB.copy() # shallow copy transaction database
         self.__Candidates =  list(set())
 
+
     def Get_Candidates(self):
         '''
         Getter of Candidates
@@ -25,3 +26,8 @@ class Apriori():
         Return :
             None
         '''
+        # iterate transaction database to get frequent 1 itemsets L_1
+        L1 = set()
+        for i in self.__DB.values():
+            L1 = L1.union(i)
+        
