@@ -11,6 +11,7 @@ class Apriori():
         self.__FreqItemsets =  list()
         self.__min_sup_count = 0
 
+    #--------- Setter -------------
     def __update_FreqItemsets(self, Lk):
         '''
         append Lk into freqent itemsets
@@ -20,6 +21,16 @@ class Apriori():
         '''
         for item in Lk:
             self.__FreqItemsets.append(item)
+    #--------- Setter -------------
+    #---------- Getter -----------
+    def Get_FreqItemsets(self):
+        '''
+        Getter of Candidates
+        Parameter : None
+        Return : a list of sets
+        '''
+        return self.__FreqItemsets
+    #---------- Getter -----------
 
     def __count_support(self, item):
         '''
@@ -100,13 +111,7 @@ class Apriori():
         ck = [ item for item in ck if not pruned(lk_1, item, k) ]
         return ck
         
-    def Get_FreqItemsets(self):
-        '''
-        Getter of Candidates
-        Parameter : None
-        Return : a list of sets
-        '''
-        return self.__FreqItemsets
+
 
     def Run_Apriori(self, min_sup):
         '''
