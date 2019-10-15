@@ -33,7 +33,7 @@ class Apriori():
             ck(list of sets) : candidate sets
         return : candidates which elements fulfill min support count
         '''
-        newck = [ item for item in ck if not self.__count_support(item) < self.__min_sup_count]
+        newck = [ item for item in ck if not self.__count_support(item) > self.__min_sup_count]
         ck.clear()
         return newck
                 
@@ -122,3 +122,4 @@ class Apriori():
         while len(Lk_1) != 0:
             # generate Ck
             self.__gencandidate(Lk_1, k)
+
