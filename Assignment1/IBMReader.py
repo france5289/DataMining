@@ -15,13 +15,13 @@ def DataReader( filename ):
             TID = obj[1]
             ItemID = obj[2]
             if TID in transactions: # check key TID exist or not
-                transactions[TID].update(ItemID)
+                transactions[TID].update({ItemID})
             else: # key value pair dosen't exist then update dictionary 
-                transactions.update({TID : set(ItemID)})    
+                transactions.update({TID : {ItemID} })    
     return transactions        
 
 if __name__ == '__main__':
-    filename = input('Please enter entire filename:\n')
-    DB = DataReader(filename)
+    #filename = input('Please enter entire filename:\n')
+    DB = DataReader('/Users/dchen/Desktop/DataMining/Assignment1/output.data')
     for item in DB.items():
         print(item)
