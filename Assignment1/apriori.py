@@ -6,7 +6,12 @@ class Apriori():
         '''
         constructor for Apriori object
         it should receive a ditctionary which store transaction database
+        and receive min_sup(float) and min_conf(float)
         '''
+        if type(min_conf) is not float or type(min_sup) is not float:
+            raise ValueError('min_conf and min_sup must be float!')
+        if min_conf > 1 or min_sup > 1:
+            raise ValueError('min_conf anc min_sup should less than 1')
         self.__DB = DB.copy() # shallow copy transaction database
         self.__FreqItemsets =  list()
         self.__min_sup_count = int(min_sup * len(self.__DB))
@@ -51,7 +56,7 @@ class Apriori():
     
     def __remove_item(self, ck):
         '''
-        remove those item which dose not fullfil min support count
+        remove those item which dose not fulfill min support count
         return a new candidate sets and clear old ones
         Parameter:
             ck(list of sets) : candidate sets
@@ -140,7 +145,7 @@ class Apriori():
         while len(Lk_1) != 0:
             # generate Ck
             Ck = self.__gencandidate(Lk_1, k)
-            # check support count fullfillment
+            # check support count fulfillment
             Lk = self.__remove_item(Ck)
             self.__update_FreqItemsets(Lk)
             Lk_1 = Lk
@@ -154,8 +159,11 @@ class Apriori():
         '''
 
 if __name__ == '__main__':
-    # use simple testing data to test correctness
-    DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
-    a = Apriori(DB, min_sup=0.5, min_conf=0.66)
-    a.Run_Apriori()
-    print(a.Get_FreqItemsets())
+    try:
+        # use simple testing data to test correctness
+        DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
+        a = Apriori(DB, min_sup=0.5, min_conf=0.66)
+        a.Run_Apriori()
+        print(a.Get_FreqItemsets())
+    except ValueError as e:
+        print(str(e))
