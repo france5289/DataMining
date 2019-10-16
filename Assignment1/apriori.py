@@ -181,7 +181,5 @@ if __name__ == '__main__':
             print(i)
         for i, rule in enumerate(a.RuleGenerator()):
             print("Rule Num {:<}: {} -> {} conf: {:<.3f} sup: {:<}".format(i+1 , rule[0], rule[1], rule[2], rule[3]))
-            #input("Press any key to continue")
-        #print(a.Get_FreqItemsets())
     except ValueError as e:
         print(str(e))
