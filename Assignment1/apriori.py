@@ -65,7 +65,19 @@ class Apriori():
         newck = [ item for item in ck if not self.__count_support(item) < self.__min_sup_count]
         ck.clear()
         return newck
-                
+    
+    def __find_subset(self, item, k):
+        '''
+        Helper function to find subset of item with cardinality k
+        ex: k = 2 -> find subsets with cardinality 2
+        Parameter :
+            item(set)
+            k(int)
+        Return :
+            (list of sets) : subsets of item with cardinality k
+        '''
+        return  [ set(i) for i in itertools.combinations(item, k) ]
+
     def __gencandidate(self, lk_1, k):
         '''
         receive k-1 itemsets and return k itemsets candidate
@@ -76,17 +88,6 @@ class Apriori():
             ck ( list of sets ) : k itemsets
         '''
         #-------------------------------- inner function ----------------------
-        def find_k1_subset(item, k):
-            '''
-            Helper function to find k-1 subset of items 
-            Parameter :
-                item(set)
-                k(int)
-            Return :
-                k_1_subset(list of sets) : k-1 subset of item
-            '''
-            return  [ set(i) for i in itertools.combinations(item, k-1)]
-        
         def pruned(lk_1, item, k):
             '''
             Check item should be pruned or not
@@ -97,7 +98,7 @@ class Apriori():
             Return:
                 Boolean: True means this item should be pruned
             '''
-            k1_subset = find_k1_subset(item, k)
+            k1_subset = self.__find_subset(item, k-1)
             for i in k1_subset:
                 if i not in lk_1:
                     return True
@@ -125,8 +126,6 @@ class Apriori():
     def Run_Apriori(self):
         '''
         Public function to run apriori algo to generate candidates
-        Parameter : 
-            min_sup(int) : minimum support count
         Return :
             None
         '''
@@ -154,19 +153,35 @@ class Apriori():
         '''
         Generator function to generate association rule
         It will yield an association rule every time called
-        ex: consider rule : {a,d} -> {c,e,f,g}
-            it will yied a list of sets : [{a,d}, {c,e,f,g}]
+        ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000
+            it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000]
         '''
-        
+        if len(self.__FreqItemsets) == 0:
+            raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
+        for item in self.__FreqItemsets: # item is a set
+            # generate all subsets of item
+            if len(item) == 1:
+                continue 
+            for n in range(1,len(item) ):
+                n_subset = self.__find_subset(item, n)
+                for subset in n_subset:
+                    conf = self.__count_support(item) / self.__count_support(subset)
+                    if conf >= self.__min_conf:
+                        yield [ subset, item.symmetric_difference(subset), float(conf), self.__count_support(item) ]
+
 if __name__ == '__main__':
     try:
         # use simple testing data to test correctness
-        DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
-        a = Apriori(DB, min_sup=0.5, min_conf=0.66)
+        #DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
+        DB = IBMReader.DataReader('Assignment1/output.data')
+        a = Apriori(DB, min_sup=0.2, min_conf=0.4)
         a.Run_Apriori()
         Freq = a.Get_FreqItemsets()
         for i in Freq:
             print(i)
+        for i, rule in enumerate(a.RuleGenerator()):
+            print("Rule Num {:<}: {} -> {} conf: {:<.3f} sup: {:<}".format(i+1 , rule[0], rule[1], rule[2], rule[3]))
+            #input("Press any key to continue")
         #print(a.Get_FreqItemsets())
     except ValueError as e:
         print(str(e))
