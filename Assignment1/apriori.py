@@ -30,6 +30,8 @@ class Apriori():
         Return : a list of sets
         '''
         return self.__FreqItemsets
+
+    
     #---------- Getter -----------
 
     def __count_support(self, item):
@@ -142,7 +144,10 @@ class Apriori():
             self.__update_FreqItemsets(Lk)
             Lk_1 = Lk
             k = k + 1
-
+    def RuleGenerator(self):
+        '''
+        Generator function to generate association rule
+        '''
 if __name__ == '__main__':
     DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
     a = Apriori(DB)
