@@ -157,13 +157,16 @@ class Apriori():
         ex: consider rule : {a,d} -> {c,e,f,g}
             it will yied a list of sets : [{a,d}, {c,e,f,g}]
         '''
-
+        
 if __name__ == '__main__':
     try:
         # use simple testing data to test correctness
         DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
         a = Apriori(DB, min_sup=0.5, min_conf=0.66)
         a.Run_Apriori()
-        print(a.Get_FreqItemsets())
+        Freq = a.Get_FreqItemsets()
+        for i in Freq:
+            print(i)
+        #print(a.Get_FreqItemsets())
     except ValueError as e:
         print(str(e))
