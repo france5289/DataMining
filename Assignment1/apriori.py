@@ -2,14 +2,15 @@ import IBMReader
 import KaggleReader
 import itertools
 class Apriori():
-    def __init__(self, DB):
+    def __init__(self, DB, min_sup, min_conf):
         '''
         constructor for Apriori object
         it should receive a ditctionary which store transaction database
         '''
         self.__DB = DB.copy() # shallow copy transaction database
         self.__FreqItemsets =  list()
-        self.__min_sup_count = 0
+        self.__min_sup_count = int(min_sup * len(self.__DB))
+        self.__min_conf = min_conf
 
     #--------- Setter -------------
     def __update_FreqItemsets(self, Lk):
@@ -116,7 +117,7 @@ class Apriori():
         
 
 
-    def Run_Apriori(self, min_sup):
+    def Run_Apriori(self):
         '''
         Public function to run apriori algo to generate candidates
         Parameter : 
@@ -124,7 +125,7 @@ class Apriori():
         Return :
             None
         '''
-        self.__min_sup_count = int(min_sup * len(self.__DB))
+
         Lk_1 = list(set()) # frequent k-1 itemset
         Lk = list(set()) # frequent k itemset
         Ck = list(set()) # k-itemset candidates
@@ -149,7 +150,8 @@ class Apriori():
         Generator function to generate association rule
         '''
 if __name__ == '__main__':
+    # use simple testing data to test correctness
     DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
-    a = Apriori(DB)
-    a.Run_Apriori(0.5)
+    a = Apriori(DB, min_sup=0.5, min_conf=0.66)
+    a.Run_Apriori()
     print(a.Get_FreqItemsets())
