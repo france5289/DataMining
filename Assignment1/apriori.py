@@ -148,7 +148,11 @@ class Apriori():
     def RuleGenerator(self):
         '''
         Generator function to generate association rule
+        It will yield an association rule every time called
+        ex: consider rule : {a,d} -> {c,e,f,g}
+            it will yied a list of sets : [{a,d}, {c,e,f,g}]
         '''
+
 if __name__ == '__main__':
     # use simple testing data to test correctness
     DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
