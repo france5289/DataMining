@@ -90,5 +90,6 @@ if __name__ == '__main__':
         node.addParent(parent_node)
         print(node.getParent())
         print(parent_node)
+        print(node.getSelf())
     except ValueError as e:
         print(str(e))
