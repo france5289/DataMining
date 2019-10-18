@@ -82,10 +82,16 @@ class FPGrowth():
         Parameter: none
         Return: none
         '''
-        
+        # scan DB to find frequent 1-item set and build a dictionary which key is string type implies item and value is count of that item
+        # This dictionary store ordered transaction entity
+        # e.g {'f':4, 'c':4, 'a':3}
+        raise NotImplementedError('Run_FPGrowth is not implemented')
+            
 
-    if __name__ == '__main__':
-        try:
-            pass
-        except ValueError as e:
-            print(str(e))
+if __name__ == '__main__':
+    try:
+        KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
+        DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
+        FP_G = FPGrowth(DB, min_sup=0.5, min_conf=0.66)
+    except ValueError as e:
+        print(str(e))
