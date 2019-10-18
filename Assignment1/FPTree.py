@@ -1,5 +1,5 @@
 from Node import Node
-class Tree():
+class FPTree():
     def __init__(self, node=None):
         '''
         constructor for Tree object
@@ -12,5 +12,8 @@ class Tree():
         if type(node) is not None and type(node) is not Node:
             raise ValueError('Tree constructor just receive Node object as parameter!')
         self.__root = Node() if type(node) is None else node
-
+    #-----------Setter-----------
+    
+    #-----------Setter-----------
+    
     
