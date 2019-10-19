@@ -15,7 +15,7 @@ class Node():
         self.__item = item
         self.__supcnt = supcnt
         self.__parent = parent
-        self.__child = child
+        self.__childs = child
 
     #------------Getter---------------
     def getItem(self):
@@ -28,7 +28,7 @@ class Node():
         '''
         return childs of Node
         '''
-        return self.__child
+        return self.__childs
     def getParent(self):
         '''
         return parent of Node
@@ -69,7 +69,7 @@ class Node():
         '''
         if type(child) is not Node:
             raise ValueError('addChild() just receive Node object as parameter')
-        self.__child.append(child)
+        self.__childs.append(child)
     def addParent(self, parent):
         '''
         Add a parent to Node
