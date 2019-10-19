@@ -78,14 +78,6 @@ class FPGrowth():
         '''
         return  [ set(i) for i in itertools.combinations(item, k) ]
 
-    def __InsertPattern(self, transaction):
-        '''
-        pass in a ordered transaction and contruct relative pattern path in FP-Tree \n
-        Parameter: \n
-            transaction(list(string)) : list of string e.g['Bread', 'Milk']
-        Return: None
-        '''
-
     def Run_FPGrowth(self):
         '''
         Public function to run FPGrowth algo to generate frequent itemsets
@@ -122,7 +114,7 @@ class FPGrowth():
         # now we need to construct FP-Tree
         for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
             if len(tranc) != 0:
-                self.__InsertPattern(tranc)
+                raise NotImplementedError('there should call FPTree.ContructPatternPath()')
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
@@ -131,3 +123,5 @@ if __name__ == '__main__':
         FP_G.Run_FPGrowth()
     except ValueError as e:
         print(str(e))
+    except NotImplementedError as e2:
+        print(str(e2))
