@@ -69,7 +69,7 @@ class FPGrowth():
     def __find_subset(self, item, k):
         '''
         Helper function to find subset of item with cardinality k
-        ex: k = 2 -> find subsets with cardinality 2
+        ex: k = 2 -> find subsets with cardinality 2 \n
         Parameter :
             item(set)
             k(int)
@@ -77,6 +77,14 @@ class FPGrowth():
             (list of sets) : subsets of item with cardinality k
         '''
         return  [ set(i) for i in itertools.combinations(item, k) ]
+
+    def __InsertPattern(self, transaction):
+        '''
+        pass in a ordered transaction and contruct relative pattern path in FP-Tree \n
+        Parameter: \n
+            transaction(list(string)) : list of string e.g['Bread', 'Milk']
+        Return: None
+        '''
 
     def Run_FPGrowth(self):
         '''
@@ -108,9 +116,13 @@ class FPGrowth():
                 if item[0] in trancs:
                     temp.append(item[0])
             # end inner for loop it should generate something like ['f','b'...]
-            self.__OrderedDB.append(temp.copy())
+            self.__OrderedDB.append(temp.copy()) # OrderedDB is something like [['bread','coffee'],['tea','coffee']]
             temp.clear()
         # now we have constructed Ordered Data Base correctly
+        # now we need to construct FP-Tree
+        for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
+            if len(tranc) != 0:
+                self.__InsertPattern(tranc)
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
