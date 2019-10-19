@@ -2,6 +2,7 @@ from FPTree import FPTree
 import itertools
 import IBMReader
 import KaggleReader
+import copy
 class FPGrowth():
     def __init__(self, DB, min_sup, min_conf):
         '''
@@ -93,7 +94,7 @@ class FPGrowth():
         table = dict()
         for item in C1: # type(item) is set
             element = item.pop()
-            count = self.__count_support(item)
+            count = self.__count_support({element})
             table.update({element:count})
         # sort look up table
         sorted_table = sorted(table.items(), key=lambda kv: kv[1], reverse=True)
@@ -104,12 +105,12 @@ class FPGrowth():
         for trancs in self.__DB.values():
             # trancs should be {'b', 'f', 'h', 'j', 'o'}
             for item in sorted_table:
-                if item in trancs:
-                    temp.append(item)
+                if item[0] in trancs:
+                    temp.append(item[0])
             # end inner for loop it should generate something like ['f','b'...]
-            self.__OrderedDB.append(temp)
+            self.__OrderedDB.append(temp.copy())
             temp.clear()
-        print(self.__OrderedDB)
+        # now we have constructed Ordered Data Base correctly
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
