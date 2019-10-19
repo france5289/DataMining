@@ -9,7 +9,7 @@ class FPTree():
             if node parameter value is None, then it will create a NULL node as root node \n
         Return: none
         '''
-        self.__root = Node() if type(node) is None else node
+        self.__root = Node() if node is None else node
     #-----------Getter-----------
     def GetRoot(self):
         '''
@@ -27,7 +27,7 @@ class FPTree():
         if startnode is None then it start from root node \n
         this function is recursive function with base case when pattern is empty \n
         Parameter: \n
-            pattern(lits of sets)
+            pattern(lits of string)
             startnode(Node obj.)
         '''
         # base case
@@ -38,26 +38,26 @@ class FPTree():
             startnode = self.__root
         insert_item = pattern[0] # it is a string
         insert_itemset = {insert_item} # it is a set
-        if startnode.getItem() == insert_itemset:
-            startnode.addItem(insert_itemset)
-            pattern.remove(insert_item)
-            return self.ContructPatternPath(startnode, pattern)
-        else:
-            for child in startnode.getChilds():
-                if child.getItem() == insert_itemset:
-                    child.addItem(insert_itemset)
-                    pattern.remove(insert_item)
-                    return self.ContructPatternPath(child, pattern)
-            # if the following codes are executed
-            # it implies maybe this node don't have any child or its childs' item don't fit insert_itemset
-            # we have to create a new node
-            newnode = Node(item = insert_itemset, supcnt=1, parent=startnode)
-            startnode.addChild(newnode)
-            pattern.remove(insert_item)
-            return self.ContructPatternPath(newnode, pattern)
+        # check insert_itemset is startnode's child or not
+        for child in startnode.getChilds():
+            if child.getItem() == insert_itemset:
+                child.addSupCount(1)
+                pattern.remove(insert_item)
+                return self.ContructPatternPath(startnode = child, pattern=pattern)
+        # if insert_itemset is not startnode's child
+        newnode = Node(item=insert_itemset, supcnt=1, parent=startnode)
+        startnode.addChild(newnode)
+        pattern.remove(insert_item)
+        return self.ContructPatternPath(startnode=newnode, pattern=pattern)
+
     #-----------Setter-----------
     
-
+        
 if __name__ == '__main__':
-    # FPTree.InsertPattern(parentnode=a.getroot(), {1,2,3})
-    pass
+    Tree = FPTree()
+    print(Tree.GetRoot())
+    transactions = [    ['Bread', 'Milk', 'Beer'], 
+                        ['Bread', 'Coffee'],
+                        ['Bread', 'Egg'] ] 
+    for tranc in transactions:
+        Tree.ContructPatternPath(startnode = None,pattern = tranc)
