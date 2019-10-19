@@ -1,5 +1,5 @@
 class Node():
-    def __init__(self, item=None,supcnt=0,parent=None, child=None):
+    def __init__(self, item=None,supcnt=0,parent=None, child=None, level=0):
         '''
         constructor for Node object
         it can receive item(set), supcnt(support count)(int), parent(Node obj) and child(List of Node obj)
@@ -16,6 +16,13 @@ class Node():
         self.__supcnt = supcnt
         self.__parent = parent
         self.__childs = child
+        self.__level = level
+    
+    def __str__(self):
+        this = repr(self.__item) + ': ' + str(self.__supcnt) + '\n'
+        for child in self.__childs:
+            this += '    ' * child.getNodeLevel() + '└' + '--' + child.__str__()
+        return this
 
     #------------Getter---------------
     def getItem(self):
@@ -44,6 +51,14 @@ class Node():
         return Node itself
         '''
         return self
+    
+    def getNodeLevel(self):
+        '''
+        return the level of node \n
+        Parameter: none \n
+        Return: self.__level(int)
+        '''
+        return self.__level
     #------------Setter---------------
     def setSibling(self):
         raise NotImplementedError
