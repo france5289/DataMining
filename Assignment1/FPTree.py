@@ -35,7 +35,6 @@ class FPTree():
         '''
         # base case
         if len(pattern) == 0:
-            print('Pattern path constructed')
             return
         if startnode is None: # start from root
             startnode = self.__root
@@ -58,10 +57,13 @@ class FPTree():
 
 if __name__ == '__main__':
     Tree = FPTree()
-    print(Tree.GetRoot())
     transactions = [    ['Bread', 'Milk', 'Beer'], 
                         ['Bread', 'Coffee'],
-                        ['Bread', 'Egg'] ] 
+                        ['Bread', 'Egg'],
+                        ['Bread', 'Milk', 'Coffee'],
+                        ['Milk', 'Egg'],
+                        ['Bread', 'Milk', 'Egg', 'Beer'],
+                        ['Bread', 'Milk', 'Egg'] ] 
     for tranc in transactions:
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
 
