@@ -9,8 +9,10 @@ class FPTree():
             if node parameter value is None, then it will create a NULL node as root node \n
         Return: none
         '''
-        self.__root = Node() if node is None else node
+        self.__root = Node(level=1) if node is None else node
         
+    def __str__(self):
+        return self.__root.__str__()
     #-----------Getter-----------
     def GetRoot(self):
         '''
@@ -46,24 +48,13 @@ class FPTree():
                 pattern.remove(insert_item)
                 return self.ContructPatternPath(startnode = child, pattern=pattern)
         # if insert_itemset is not startnode's child
-        newnode = Node(item=insert_itemset, supcnt=1, parent=startnode)
+        newnode = Node(item=insert_itemset, supcnt=1, parent=startnode, level=startnode.getNodeLevel() + 1)
         startnode.addChild(newnode)
         pattern.remove(insert_item)
         return self.ContructPatternPath(startnode=newnode, pattern=pattern)
 
     #-----------Setter-----------
     
-    def PreorderTraversal(self, startnode = None):
-        '''
-        traverse tree preorderly
-        '''
-        if startnode is None:
-            startnode = self.__root
-        print('Node: ',startnode.getItem())
-        print('Supcnt: ',startnode.getSupcnt())
-        for child in startnode.getChilds():
-            self.PreorderTraversal(startnode=child)
-
 
 if __name__ == '__main__':
     Tree = FPTree()
@@ -73,4 +64,5 @@ if __name__ == '__main__':
                         ['Bread', 'Egg'] ] 
     for tranc in transactions:
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
-    Tree.PreorderTraversal()
+
+    print(Tree.__str__())
