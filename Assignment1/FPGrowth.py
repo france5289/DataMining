@@ -14,6 +14,7 @@ class FPGrowth():
         if min_conf > 1 or min_sup > 1:
             raise ValueError('min_conf anc min_sup should less than 1')
         self.__DB = DB.copy() # shallow copy transaction database
+        self.__OrderedDB = list()
         self.__FreqItemsets =  list()
         self.__min_sup_count = int(min_sup * len(self.__DB))
         self.__min_conf = min_conf
@@ -82,16 +83,38 @@ class FPGrowth():
         Parameter: none
         Return: none
         '''
-        # scan DB to find frequent 1-item set and build a dictionary which key is string type implies item and value is count of that item
-        # This dictionary store ordered transaction entity
-        # e.g {'f':4, 'c':4, 'a':3}
-        raise NotImplementedError('Run_FPGrowth is not implemented')
-            
-
+        # find frequent-1 itemset and consturct look up table(dict(string : int))
+        L1 = set()
+        for item in self.__DB.values():
+            if item not in L1:
+                L1 = L1.union(item)
+        L1 = [{i} for i in L1]
+        C1 = self.__remove_item(L1)
+        table = dict()
+        for item in C1: # type(item) is set
+            element = item.pop()
+            count = self.__count_support(item)
+            table.update({element:count})
+        # sort look up table
+        sorted_table = sorted(table.items(), key=lambda kv: kv[1], reverse=True)
+        # sorted_table is a list of tuple e.g [('f', 4), ('c', 3)...]
+        # use sorted_table to create new transaction database with ordered transactions
+        # new transaction database will be a list
+        temp = list()
+        for trancs in self.__DB.values():
+            # trancs should be {'b', 'f', 'h', 'j', 'o'}
+            for item in sorted_table:
+                if item in trancs:
+                    temp.append(item)
+            # end inner for loop it should generate something like ['f','b'...]
+            self.__OrderedDB.append(temp)
+            temp.clear()
+        print(self.__OrderedDB)
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
         DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
         FP_G = FPGrowth(DB, min_sup=0.5, min_conf=0.66)
+        FP_G.Run_FPGrowth()
     except ValueError as e:
         print(str(e))
