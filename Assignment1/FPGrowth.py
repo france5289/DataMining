@@ -39,6 +39,11 @@ class FPGrowth():
         Return : a list of sets
         '''
         return self.__FreqItemsets
+    def GetFPTree(self):
+        '''
+        Return FPTree object
+        '''
+        return self.__FPTree
     #---------- Getter -----------
     def __count_support(self, item):
         '''
@@ -114,13 +119,14 @@ class FPGrowth():
         # now we need to construct FP-Tree
         for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
             if len(tranc) != 0:
-                raise NotImplementedError('there should call FPTree.ContructPatternPath()')
+                self.__FPTree.ContructPatternPath(startnode=None, pattern=tranc)
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
         DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
-        FP_G = FPGrowth(DB, min_sup=0.5, min_conf=0.66)
+        FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.66)
         FP_G.Run_FPGrowth()
+        print(FP_G.GetFPTree().GetRoot().__str__())
     except ValueError as e:
         print(str(e))
     except NotImplementedError as e2:
