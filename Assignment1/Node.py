@@ -47,7 +47,7 @@ class Node():
     #------------Setter---------------
     def setSibling(self):
         raise NotImplementedError
-    def setItem(self, item):
+    def addItem(self, item):
         '''
         Insert an Item(set) to Node and add supcnt by one \n
         if item already exist then just add supcnt by one \n
@@ -55,7 +55,7 @@ class Node():
         Return : none \n
         '''
         if type(item) is not set:
-            raise ValueError('setItem() just receive set type as parameter')
+            raise ValueError('addItem() just receive set type as parameter')
         if self.__item == item:
             self.__supcnt = self.__supcnt + 1
         else:
