@@ -20,7 +20,8 @@ class Node():
     #------------Getter---------------
     def getItem(self):
         '''
-        return memeber variable of Node obj : '__item'
+        return memeber variable of Node obj : '__item' \n
+        Return : self.__item(set)
         '''
         return self.__item
     def getChilds(self):
@@ -48,14 +49,18 @@ class Node():
         raise NotImplementedError
     def setItem(self, item):
         '''
-        Insert an Item(set) to Node
-        if Node already have Item value, it will be replaced
-        Parameter : item(set)
-        Return : none
+        Insert an Item(set) to Node and add supcnt by one \n
+        if item already exist then just add supcnt by one \n
+        Parameter : item(set) \n
+        Return : none \n
         '''
         if type(item) is not set:
             raise ValueError('setItem() just receive set type as parameter')
-        self.__item = item
+        if self.__item == item:
+            self.__supcnt = self.__supcnt + 1
+        else:
+            self.__item = item
+            self.__supcnt = self.__supcnt + 1
     def addChild(self, child):
         '''
         Add a child to Node
@@ -74,7 +79,6 @@ class Node():
         if type(parent) is not Node:
             raise ValueError('addParent() just receive Node object as parameter')
         self.__parent = parent
-
 if __name__ == '__main__':
     try:
         # test functionality
