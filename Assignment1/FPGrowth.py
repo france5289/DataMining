@@ -80,8 +80,8 @@ class FPGrowth():
 
     def Run_FPGrowth(self):
         '''
-        Public function to run FPGrowth algo to generate frequent itemsets
-        Parameter: none
+        Public function to run FPGrowth algo to generate frequent itemsets \n
+        Parameter: none \n
         Return: none
         '''
         # find frequent-1 itemset and consturct look up table(dict(string : int))

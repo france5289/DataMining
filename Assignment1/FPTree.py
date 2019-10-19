@@ -10,6 +10,7 @@ class FPTree():
         Return: none
         '''
         self.__root = Node() if node is None else node
+        
     #-----------Getter-----------
     def GetRoot(self):
         '''
@@ -52,7 +53,18 @@ class FPTree():
 
     #-----------Setter-----------
     
-        
+    def PreorderTraversal(self, startnode = None):
+        '''
+        traverse tree preorderly
+        '''
+        if startnode is None:
+            startnode = self.__root
+        print('Node: ',startnode.getItem())
+        print('Supcnt: ',startnode.getSupcnt())
+        for child in startnode.getChilds():
+            self.PreorderTraversal(startnode=child)
+
+
 if __name__ == '__main__':
     Tree = FPTree()
     print(Tree.GetRoot())
@@ -61,3 +73,4 @@ if __name__ == '__main__':
                         ['Bread', 'Egg'] ] 
     for tranc in transactions:
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
+    Tree.PreorderTraversal()
