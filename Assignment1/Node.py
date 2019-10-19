@@ -1,17 +1,17 @@
 class Node():
-    def __init__(self, item=set(),supcnt=0,parent=None, child=list()):
+    def __init__(self, item=None,supcnt=0,parent=None, child=None):
         '''
         constructor for Node object
         it can receive item(set), supcnt(support count)(int), parent(Node obj) and child(List of Node obj)
         if item is parent is None then it implies this node is root node
         if every attribute in Node is empty it implies this node is NULL node
         '''
-        if type(item) is not set:
-            raise ValueError('Node __init()__ item paramter just receive set type')
         if type(supcnt) is not int:
             raise ValueError('Node __init()__ supcnt paramter just receive integer type')
-        if type(child) is not list:
-            raise ValueError('Node __init()__ child paramter just receive list type')
+        if item is None:
+            item = set()
+        if child is None:
+            child = list()
         self.__item = item
         self.__supcnt = supcnt
         self.__parent = parent
@@ -63,7 +63,7 @@ class Node():
             self.__supcnt = self.__supcnt + 1
     def addChild(self, child):
         '''
-        Add a child to Node
+        Add a child to Node \n
         Parameter : child(Node obj.)
         Return : none
         '''
@@ -79,6 +79,14 @@ class Node():
         if type(parent) is not Node:
             raise ValueError('addParent() just receive Node object as parameter')
         self.__parent = parent
+    
+    def addSupCount(self, value):
+        '''
+        Add supcnt by value \n
+        Parameter: \n
+            value(int)
+        '''
+        self.__supcnt = self.__supcnt + value
 if __name__ == '__main__':
     try:
         # test functionality
