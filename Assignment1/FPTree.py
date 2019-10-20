@@ -45,12 +45,65 @@ class FPTree():
             self.__headerTable[key].append(node)
         else:
             self.__headerTable.update({key:[node]})
+    #-----------Setter-----------
+    def __FindPath(self, startnode, path):
+        ''' 
+        Find a path from startnode to root \n
+        Parameter: \n
+            startnode(Node obj.): where to start 
+            path(dict) : a dictionary with key value pair { Node obj : count }
+        Return: none, we will save our path into 'path' parameter
+        '''
+        # base case
+        parent = startnode.getParent()
+        if parent.getNodeLevel() == 1: # parent is root
+            return
+        path.update({parent:parent.getSupcnt()})
+        self.__FindPath(startnode = parent, path = path)
+
+    def __FindPattern(self, startnode, freqpattern, temp):
+        '''
+        Find all possible relative pattern form startnode \n
+        Parameter: \n
+            startnode(Node obj.) : where to start \n
+            freqpattern(list of sets) : store frequent pattern sets \n
+            temp : store temporally generated freqpattern \n
+        '''
+        
+        if startnode.getNodeLevel() == 1 : # root node
+            if temp not in freqpattern and len(temp) != 0:
+                freqpattern.append(temp)
+            return
+        
+        self.__FindPattern(startnode.getParent(), freqpattern, temp)
+        temp2 = temp.copy()
+        temp2.update({startnode.getItem()})
+        self.__FindPattern(startnode.getParent(), freqpattern, temp2)
+
+    def TreeMining(self, item):
+        '''
+        
+        Parameter : \n
+            item(str) \n
+        Return : \n
+            freqpattern()
+        '''
+        path = dict()
+        freqpattern = list()
+        temp = set()
+        for node in self.__headerTable[item]:
+            self.__FindPath(startnode=node, path=path)
+        for node in path:
+            self.__FindPattern(startnode=node, freqpattern=freqpattern, temp=temp)
+        
+        print(freqpattern)
+
 
     def ContructPatternPath(self, startnode, pattern):
         '''
         contruct pattern path from root node \n
         if startnode is None then it start from root node \n
-        this function is recursive function with base case when pattern is empty \n
+        this function is recursive function with base case that pattern is empty \n
         Parameter: \n
             pattern(lits of string)
             startnode(Node obj.)
@@ -72,7 +125,7 @@ class FPTree():
         self.__insertHederTable(newnode)
         return self.ContructPatternPath(startnode=newnode, pattern=pattern)
 
-    #-----------Setter-----------
+    
     
 
 if __name__ == '__main__':
@@ -83,10 +136,13 @@ if __name__ == '__main__':
                         ['Bread', 'Milk', 'Coffee'],
                         ['Milk', 'Egg'],
                         ['Bread', 'Milk', 'Egg', 'Beer'],
-                        ['Bread', 'Milk', 'Egg'] ] 
+                        ['Bread', 'Milk', 'Egg'],
+                        ['Bread', 'Egg'],
+                        ['Milk', 'Egg'] ] 
     for tranc in transactions:
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
 
     print(Tree.__str__())
-    for i in Tree.GetHeaderTable().items():
-        print(i)
+    #for i in Tree.GetHeaderTable().items():
+    #    print(i)
+    Tree.TreeMining('Beer')
