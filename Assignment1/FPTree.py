@@ -34,7 +34,17 @@ class FPTree():
         return self.__headerTable
     #-----------Getter-----------
     #-----------Setter-----------
-
+    def __insertHederTable(self, node):
+        '''
+        Insert Node object into header table \n
+        Parameter: node (Node obj.) \n
+        Return : No return value \n
+        '''
+        key = node.getItem()
+        if key in self.__headerTable.keys():
+            self.__headerTable[key].append(node)
+        else:
+            self.__headerTable.update({key:[node]})
 
     def ContructPatternPath(self, startnode, pattern):
         '''
