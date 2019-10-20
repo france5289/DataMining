@@ -46,7 +46,7 @@ class FPTree():
         else:
             self.__headerTable.update({key:[node]})
     #-----------Setter-----------
-    def __FindPath(self, startnode, path):
+    def __FindPath(self, startnode, path, cnt ):
         ''' 
         Find a path from startnode to root \n
         Parameter: \n
@@ -58,46 +58,58 @@ class FPTree():
         parent = startnode.getParent()
         if parent.getNodeLevel() == 1: # parent is root
             return
-        path.update({parent:parent.getSupcnt()})
-        self.__FindPath(startnode = parent, path = path)
+        if parent in path.keys():
+            path[parent] = path[parent] + cnt 
+        else:
+            path.update({parent:cnt})
+        self.__FindPath(startnode = parent, path = path, cnt = cnt)
 
-    def __FindPattern(self, startnode, freqpattern, temp):
+    def __FindPattern(self, startnode, freqpattern, temp, cnt):
         '''
         Find all possible relative pattern form startnode \n
         Parameter: \n
             startnode(Node obj.) : where to start \n
-            freqpattern(list of sets) : store frequent pattern sets \n
+            freqpattern(dict) : store frequent pattern item and count \n
             temp : store temporally generated freqpattern \n
         '''
-        
-        if startnode.getNodeLevel() == 1 : # root node
-            if temp not in freqpattern and len(temp) != 0:
-                freqpattern.append(temp)
+        if startnode is None:
             return
-        
-        self.__FindPattern(startnode.getParent(), freqpattern, temp)
+        if startnode.getNodeLevel() == 1 : # root node
+            if str(temp) not in freqpattern.keys() and len(temp) != 0:
+                freqpattern.update({str(temp):cnt})
+                return
+            if str(temp) in freqpattern.keys():
+                freqpattern[str(temp)] = freqpattern[str(temp)] + cnt
+                return
+            return
+        self.__FindPattern(startnode.getParent(), freqpattern, temp, cnt)
         temp2 = temp.copy()
         temp2.update({startnode.getItem()})
-        self.__FindPattern(startnode.getParent(), freqpattern, temp2)
+        self.__FindPattern(startnode.getParent(), freqpattern, temp2, cnt)
 
-    def TreeMining(self, item):
+    def TreeMining(self, item, min_sup_cnt):
         '''
         
         Parameter : \n
             item(str) \n
+            min_sup_cnt(int) \n
         Return : \n
             freqpattern()
         '''
-        path = dict()
-        freqpattern = list()
+        path = dict() # e.g { <Node obj.> : cnt }
+        pattern = dict() # e.g {"{'Bread'}":4, ....}
         temp = set()
         for node in self.__headerTable[item]:
-            self.__FindPath(startnode=node, path=path)
-        for node in path:
-            self.__FindPattern(startnode=node, freqpattern=freqpattern, temp=temp)
-        
-        print(freqpattern)
-
+            self.__FindPath(startnode=node, path=path, cnt = node.getSupcnt())
+        for node, count in path.items():
+            temp= {node.getItem()}
+            self.__FindPattern(startnode=node.getParent(), freqpattern=pattern, temp=temp, cnt=count)
+        freqpattern = [ pair for pair in pattern.items() if pair[1] >= min_sup_cnt ]
+        freqpattern = [[ pair[0].strip("{}"), pair[1]]  for pair in freqpattern]
+        freqpattern = [ [ pair[0].replace("'", ""), pair[1]] for pair in freqpattern]
+        freqpattern = [ [ pair[0] +'->' + str(item), pair[1]  ]  for pair in freqpattern]
+        for item in freqpattern:
+            print(item)
 
     def ContructPatternPath(self, startnode, pattern):
         '''
@@ -142,7 +154,7 @@ if __name__ == '__main__':
     for tranc in transactions:
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
 
-    print(Tree.__str__())
+    # print(Tree.__str__())
     #for i in Tree.GetHeaderTable().items():
     #    print(i)
-    Tree.TreeMining('Beer')
+    Tree.TreeMining('Egg', 2)
