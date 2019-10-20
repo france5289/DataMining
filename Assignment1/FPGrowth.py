@@ -95,6 +95,7 @@ class FPGrowth():
         for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
             if len(tranc) != 0:
                 self.__FPTree.ContructPatternPath(startnode=None, pattern=tranc)
+    
     def Run_FPGrowth(self):
         '''
         Public function to run FPGrowth algo to generate frequent itemsets \n
@@ -130,13 +131,27 @@ class FPGrowth():
         # now we have constructed Ordered Data Base correctly
         # now we need to construct FP-Tree
         self.__ConstructFPTree()
+        F1 = sorted(table.items(), key=lambda kv: kv[1])
+        # F1 is frequent 1-itemset , which is something like [('a',2),...,('f',4)]
+        F1 = [ [ item[0], item[1] ] for item in F1 ] # F1 = [ ['a', 2],....,['f',4] ]
+        for item in F1:
+            self.__update_FreqItemsets(item)
+        # find other frequent patterns
+        for item in F1:
+            freqpattern = self.__FPTree.TreeMining(item[0], self.__min_sup_count)
+            for pattern in freqpattern:
+                self.__update_FreqItemsets(pattern)
+
+
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
         DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
         FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.66)
         FP_G.Run_FPGrowth()
-        print(FP_G.GetFPTree().GetRoot().__str__())
+        #print(FP_G.GetFPTree().GetRoot().__str__())
+        for i in FP_G.Get_FreqItemsets():
+            print(i)
     except ValueError as e:
         print(str(e))
     except NotImplementedError as e2:
