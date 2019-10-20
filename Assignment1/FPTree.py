@@ -10,7 +10,11 @@ class FPTree():
         Return: none
         '''
         self.__root = Node(level=1) if node is None else node
-        
+        self.__headerTable = dict() # this table record position of a Node obj.
+        # e.g                    root 
+        #                       /
+        #               <Node.obj( item = 'Bread' ) at 0x10ab53b90> 
+        # self.__headerTable :  { 'Bread': [ <Node.obj at 0x10ab53b90 ] }
     def __str__(self):
         return self.__root.__str__()
     #-----------Getter-----------
@@ -21,9 +25,17 @@ class FPTree():
         Return : Node object \n
         '''
         return self.__root
+    def GetHeaderTable(self):
+        '''
+        Return header Table of FPTree \n
+        Parameter : none \n
+        Return : dict with {key:value} = { Node.item(str) : list of Node object(list) }
+        '''
+        return self.__headerTable
     #-----------Getter-----------
-    
     #-----------Setter-----------
+
+
     def ContructPatternPath(self, startnode, pattern):
         '''
         contruct pattern path from root node \n
