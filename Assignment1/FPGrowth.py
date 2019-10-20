@@ -83,6 +83,18 @@ class FPGrowth():
         '''
         return  [ set(i) for i in itertools.combinations(item, k) ]
 
+    def __ConstructFPTree(self):
+        '''
+        When we get OrderedDB use this method to construct FPTree \n
+        If OrderedDB is empty raise ValueError \n
+        Parameter : none \n
+        Return : none \n
+        '''
+        if len(self.__OrderedDB) == 0:
+            raise ValueError('Oedered DB is empty! Can not construct FP Tree')
+        for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
+            if len(tranc) != 0:
+                self.__FPTree.ContructPatternPath(startnode=None, pattern=tranc)
     def Run_FPGrowth(self):
         '''
         Public function to run FPGrowth algo to generate frequent itemsets \n
@@ -117,9 +129,7 @@ class FPGrowth():
             temp.clear()
         # now we have constructed Ordered Data Base correctly
         # now we need to construct FP-Tree
-        for tranc in self.__OrderedDB: # tranc is something like ['bread', 'coffee'...]
-            if len(tranc) != 0:
-                self.__FPTree.ContructPatternPath(startnode=None, pattern=tranc)
+        self.__ConstructFPTree()
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
