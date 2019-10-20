@@ -89,12 +89,13 @@ class FPTree():
 
     def TreeMining(self, item, min_sup_cnt):
         '''
-        
+        return frequent pattern with relative item \n
+        e.g {'Bread->Egg', 4}
         Parameter : \n
             item(str) \n
             min_sup_cnt(int) \n
         Return : \n
-            freqpattern()
+            freqpattern(list) : contain frequent pattern and relative support count \n
         '''
         path = dict() # e.g { <Node obj.> : cnt }
         pattern = dict() # e.g {"{'Bread'}":4, ....}
@@ -108,8 +109,7 @@ class FPTree():
         freqpattern = [[ pair[0].strip("{}"), pair[1]]  for pair in freqpattern]
         freqpattern = [ [ pair[0].replace("'", ""), pair[1]] for pair in freqpattern]
         freqpattern = [ [ pair[0] +'->' + str(item), pair[1]  ]  for pair in freqpattern]
-        for item in freqpattern:
-            print(item)
+        return freqpattern
 
     def ContructPatternPath(self, startnode, pattern):
         '''
