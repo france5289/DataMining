@@ -69,6 +69,7 @@ class FPTree():
         # if insert_itemset is not startnode's child
         newnode = Node(item=insert_item, supcnt=1, parent=startnode, level=startnode.getNodeLevel() + 1)
         startnode.addChild(newnode)
+        self.__insertHederTable(newnode)
         return self.ContructPatternPath(startnode=newnode, pattern=pattern)
 
     #-----------Setter-----------
@@ -87,3 +88,5 @@ if __name__ == '__main__':
         Tree.ContructPatternPath(startnode = None,pattern = tranc)
 
     print(Tree.__str__())
+    for i in Tree.GetHeaderTable().items():
+        print(i)
