@@ -2,14 +2,14 @@ class Node():
     def __init__(self, item=None,supcnt=0,parent=None, child=None, level=0):
         '''
         constructor for Node object
-        it can receive item(set), supcnt(support count)(int), parent(Node obj) and child(List of Node obj)
+        it can receive item(str), supcnt(support count)(int), parent(Node obj) and child(List of Node obj)
         if item is parent is None then it implies this node is root node
         if every attribute in Node is empty it implies this node is NULL node
         '''
         if type(supcnt) is not int:
             raise ValueError('Node __init()__ supcnt paramter just receive integer type')
         if item is None:
-            item = set()
+            item = str()
         if child is None:
             child = list()
         self.__item = item
