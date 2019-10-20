@@ -50,18 +50,15 @@ class FPTree():
             return
         if startnode is None: # start from root
             startnode = self.__root
-        insert_item = pattern[0] # it is a string
-        insert_itemset = {insert_item} # it is a set
+        insert_item = pattern.pop(0) # it is a string
         # check insert_itemset is startnode's child or not
         for child in startnode.getChilds():
-            if child.getItem() == insert_itemset:
+            if child.getItem() == insert_item:
                 child.addSupCount(1)
-                pattern.remove(insert_item)
                 return self.ContructPatternPath(startnode = child, pattern=pattern)
         # if insert_itemset is not startnode's child
-        newnode = Node(item=insert_itemset, supcnt=1, parent=startnode, level=startnode.getNodeLevel() + 1)
+        newnode = Node(item=insert_item, supcnt=1, parent=startnode, level=startnode.getNodeLevel() + 1)
         startnode.addChild(newnode)
-        pattern.remove(insert_item)
         return self.ContructPatternPath(startnode=newnode, pattern=pattern)
 
     #-----------Setter-----------
