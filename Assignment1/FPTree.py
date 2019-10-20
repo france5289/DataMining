@@ -90,7 +90,7 @@ class FPTree():
     def TreeMining(self, item, min_sup_cnt):
         '''
         return frequent pattern with relative item \n
-        e.g {'Bread->Egg', 4}
+        e.g ['Bread->Egg', 4]
         Parameter : \n
             item(str) \n
             min_sup_cnt(int) \n
