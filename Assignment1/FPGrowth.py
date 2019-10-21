@@ -150,38 +150,40 @@ class FPGrowth():
                 self.__update_FreqItemsets([itemset.copy()])
                 self.__FreqCountDB.update({ str(itemset) : pattern[1] })
                 itemset.clear()
-    def RuleGenerator(self):
-        '''
-        Generator function to generate association rule \n
-        It will yield an association rule every time called \n
-        ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000 \n
-            it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000] \n
-        '''
-        if len(self.__FreqItemsets) == 0:
-            raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
-        for item in self.__FreqItemsets:
-            if len(item) == 1:
-                continue
-            for n in range(1,len(item)):
-                n_subset = self.__find_subset(item, n)
-                for subset in n_subset:
-                    conf = self.__FreqCountDB[str(item)] / self.__FreqCountDB[str(subset)]
-                    if conf >= self.__min_conf:
-                        yield [subset, item.symmetric_difference(subset), float(conf), self.__FreqCountDB[str(item)] ]
+    # def RuleGenerator(self):
+    #     '''
+    #     Generator function to generate association rule \n
+    #     It will yield an association rule every time called \n
+    #     ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000 \n
+    #         it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000] \n
+    #     '''
+    #     if len(self.__FreqItemsets) == 0:
+    #         raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
+    #     for item in self.__FreqItemsets:
+    #         if len(item) == 1:
+    #             continue
+    #         for n in range(1,len(item)):
+    #             n_subset = self.__find_subset(item, n)
+    #             for subset in n_subset:
+    #                 conf = self.__FreqCountDB[str(item)] / self.__FreqCountDB[str(subset)]
+    #                 if conf >= self.__min_conf:
+    #                     yield [subset, item.symmetric_difference(subset), float(conf), self.__FreqCountDB[str(item)] ]
 
 
 if __name__ == '__main__':
     try:
         cwd = os.getcwd()
-        KAGGLE_DATA_PATH= cwd + '/GroceryStoreDataSet.csv'
-        DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
+        #KAGGLE_DATA_PATH= cwd + '/GroceryStoreDataSet.csv'
+        #DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
+        IBM_DATA_PATH = cwd + '/Assignment1/output.data'
+        DB = IBMReader.DataReader(IBM_DATA_PATH)
         FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.4)
         FP_G.Run_FPGrowth()
         #print(FP_G.GetFPTree().GetRoot().__str__())
         for i in FP_G.Get_FreqItemsets():
             print(i)
-        for i,rule in enumerate(FP_G.RuleGenerator()):
-            print("Rule Num {:<}: {} -> {} conf: {:<.3f} sup: {:<}".format(i+1 , rule[0], rule[1], rule[2], rule[3]))
+        # for i,rule in enumerate(FP_G.RuleGenerator()):
+        #     print("Rule Num {:<}: {} -> {} conf: {:<.3f} sup: {:<}".format(i+1 , rule[0], rule[1], rule[2], rule[3]))
     except ValueError as e:
         print(str(e))
     except NotImplementedError as e2:
