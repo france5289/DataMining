@@ -108,7 +108,8 @@ class FPTree():
         freqpattern = [ pair for pair in pattern.items() if pair[1] >= min_sup_cnt ]
         freqpattern = [[ pair[0].strip("{}"), pair[1]]  for pair in freqpattern]
         freqpattern = [ [ pair[0].replace("'", ""), pair[1]] for pair in freqpattern]
-        freqpattern = [ [ pair[0] +'->' + str(item), pair[1]  ]  for pair in freqpattern]
+        freqpattern = [ [ pair[0].replace(",", ""), pair[1]] for pair in freqpattern]
+        freqpattern = [ [ pair[0] +' ' + str(item), pair[1]  ]  for pair in freqpattern]
         return freqpattern
 
     def ContructPatternPath(self, startnode, pattern):
