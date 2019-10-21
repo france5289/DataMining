@@ -5,3 +5,9 @@
 venv
 /.vscode
 /Assignment1/__pycache__
+Assignment1/output_500.data
+/Assignment1/IBM_weka.csv
+/Assignment1/GroceryStoreDataSet_weka.csv
+/Assignment1/generate_weka.py
+/Assignment1/data.py
+/Assignment1/plotcomp.py
