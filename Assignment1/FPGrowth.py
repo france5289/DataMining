@@ -150,24 +150,26 @@ class FPGrowth():
                 self.__update_FreqItemsets([itemset.copy()])
                 self.__FreqCountDB.update({ str(itemset) : pattern[1] })
                 itemset.clear()
-    # def RuleGenerator(self):
-    #     '''
-    #     Generator function to generate association rule \n
-    #     It will yield an association rule every time called \n
-    #     ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000 \n
-    #         it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000] \n
-    #     '''
-    #     if len(self.__FreqItemsets) == 0:
-    #         raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
-    #     for item in self.__FreqItemsets:
-    #         if len(item) == 1:
-    #             continue
-    #         for n in range(1,len(item)):
-    #             n_subset = self.__find_subset(item, n)
-    #             for subset in n_subset:
-    #                 conf = self.__FreqCountDB[str(item)] / self.__FreqCountDB[str(subset)]
-    #                 if conf >= self.__min_conf:
-    #                     yield [subset, item.symmetric_difference(subset), float(conf), self.__FreqCountDB[str(item)] ]
+    
+    def RuleGenerator(self):
+        '''
+        Generator function to generate association rule
+        It will yield an association rule every time called
+        ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000
+            it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000]
+        '''
+        if len(self.__FreqItemsets) == 0:
+            raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
+        for item in self.__FreqItemsets: # item is a set
+            # generate all subsets of item
+            if len(item) == 1:
+                continue 
+            for n in range(1,len(item) ):
+                n_subset = self.__find_subset(item, n)
+                for subset in n_subset:
+                    conf = self.__count_support(item) / self.__count_support(subset)
+                    if conf >= self.__min_conf:
+                        yield [ subset, item.symmetric_difference(subset), float(conf), self.__count_support(item) ]
 
 
 if __name__ == '__main__':
