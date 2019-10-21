@@ -11,7 +11,7 @@ if __name__ == '__main__':
     try:
         cwd = os.getcwd()
         KAGGLE_DATA_PATH = cwd + '/GroceryStoreDataSet.csv'
-        IBM_DATA_PATH = cwd + '/output.data'
+        IBM_DATA_PATH = cwd + '/output_50k.data'
         DB = dict()
         parser = argparse.ArgumentParser()
         parser.add_argument('DATA', help='which data (IBM or KAGGLE) do you want to mine? type "IBM" for IBM dataset "Kaggle" for Kaggle dataset')
