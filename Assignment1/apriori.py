@@ -1,6 +1,7 @@
 import IBMReader
 import KaggleReader
 import itertools
+import os
 class Apriori():
     def __init__(self, DB, min_sup, min_conf):
         '''
@@ -172,7 +173,7 @@ if __name__ == '__main__':
     try:
         # use simple testing data to test correctness
         #DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
-        DB = KaggleReader.DataReader('Assignment1/GroceryStoreDataSet.csv')
+        DB = KaggleReader.DataReader( os.getcwd() + '/GroceryStoreDataSet.csv')
         a = Apriori(DB, min_sup=0.2, min_conf=0.4)
         a.Run_Apriori()
         Freq = a.Get_FreqItemsets()

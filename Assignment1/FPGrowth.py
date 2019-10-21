@@ -3,6 +3,7 @@ import itertools
 import IBMReader
 import KaggleReader
 import copy
+import os
 class FPGrowth():
     def __init__(self, DB, min_sup, min_conf):
         '''
@@ -171,7 +172,8 @@ class FPGrowth():
 
 if __name__ == '__main__':
     try:
-        KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
+        cwd = os.getcwd()
+        KAGGLE_DATA_PATH= cwd + '/GroceryStoreDataSet.csv'
         DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
         FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.4)
         FP_G.Run_FPGrowth()
