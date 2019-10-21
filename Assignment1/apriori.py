@@ -172,7 +172,7 @@ if __name__ == '__main__':
     try:
         # use simple testing data to test correctness
         #DB = {10:{'A','C','D'}, 20:{'B','C','E'}, 30:{'A','B','C','E'}, 40:{'B','E'}}
-        DB = IBMReader.DataReader('Assignment1/output.data')
+        DB = KaggleReader.DataReader('Assignment1/GroceryStoreDataSet.csv')
         a = Apriori(DB, min_sup=0.2, min_conf=0.4)
         a.Run_Apriori()
         Freq = a.Get_FreqItemsets()
