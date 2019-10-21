@@ -16,7 +16,8 @@ class FPGrowth():
             raise ValueError('min_conf anc min_sup should less than 1')
         self.__DB = DB.copy() # shallow copy transaction database
         self.__OrderedDB = list()
-        self.__FreqItemsets =  list()
+        self.__FreqItemsets =  list() # list of set store all frequent itemsets
+        self.__FreqCountDB = dict() # store frequent itemsets and relative support count (key(str):value(int))
         self.__min_sup_count = int(min_sup * len(self.__DB))
         self.__min_conf = min_conf
         self.__FPTree = FPTree() # compressed database, we will access this tree frequently
@@ -124,12 +125,17 @@ class FPGrowth():
         # F1 is frequent 1-itemset , which is something like [('a',2),...,('f',4)]
         F1 = [ [ item[0], item[1] ] for item in F1 ] # F1 = [ ['a', 2],....,['f',4] ]
         for item in F1:
-            self.__update_FreqItemsets(item)
+            self.__update_FreqItemsets([{item[0]}])
+            self.__FreqCountDB.update({ item[0] : item[1] })
         # find other frequent patterns
         for item in F1:
             freqpattern = self.__FPTree.TreeMining(item[0], self.__min_sup_count)
             for pattern in freqpattern:
-                self.__update_FreqItemsets(pattern)
+                self.__update_FreqItemsets([{pattern[0]}])
+                self.__FreqCountDB.update({ pattern[0] : pattern[1] })
+
+
+
 
 
 if __name__ == '__main__':
