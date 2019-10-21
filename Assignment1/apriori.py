@@ -104,7 +104,6 @@ class Apriori():
                     return True
             return False
         #-------------------------------- inner function ----------------------
-
         ck = list(set())
         i = 0
         j = i+1
@@ -129,7 +128,6 @@ class Apriori():
         Return :
             None
         '''
-
         Lk_1 = list(set()) # frequent k-1 itemset
         Lk = list(set()) # frequent k itemset
         Ck = list(set()) # k-itemset candidates
@@ -149,6 +147,7 @@ class Apriori():
             self.__update_FreqItemsets(Lk)
             Lk_1 = Lk
             k = k + 1
+
     def RuleGenerator(self):
         '''
         Generator function to generate association rule
