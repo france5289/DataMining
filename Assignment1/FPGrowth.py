@@ -128,13 +128,25 @@ class FPGrowth():
             self.__update_FreqItemsets([{item[0]}])
             self.__FreqCountDB.update({ item[0] : item[1] })
         # find other frequent patterns
+        itemset = set()
         for item in F1:
             freqpattern = self.__FPTree.TreeMining(item[0], self.__min_sup_count)
             for pattern in freqpattern:
-                self.__update_FreqItemsets([{pattern[0]}])
-                self.__FreqCountDB.update({ pattern[0] : pattern[1] })
-
-
+                itemstr = pattern[0].split()
+                for i in itemstr:
+                    itemset.update({i})
+                self.__update_FreqItemsets([itemset.copy()])
+                self.__FreqCountDB.update({ str(itemset) : pattern[1] })
+                itemset.clear()
+    def RuleGenerator(self):
+        '''
+        Generator function to generate association rule \n
+        It will yield an association rule every time called \n
+        ex: consider rule : {a,d} -> {c,e,f,g} with confidence = 0.4 and support = 2000 \n
+            it will yied a list of sets : [{a,d}, {c,e,f,g}, 0.4 , 2000] \n
+        '''
+        if len(self.__FreqItemsets) == 0:
+            raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
 
 
 
