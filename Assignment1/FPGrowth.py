@@ -72,6 +72,17 @@ class FPGrowth():
         ck.clear()
         return newck
     
+    def __find_subset(self, item, k):
+        '''
+        Helper function to find subset of item with cardinality k
+        ex: k = 2 -> find subsets with cardinality 2
+        Parameter :
+            item(set)
+            k(int)
+        Return :
+            (list of sets) : subsets of item with cardinality k
+        '''
+        return  [ set(i) for i in itertools.combinations(item, k) ]
     
     def __ConstructFPTree(self):
         '''
@@ -126,7 +137,7 @@ class FPGrowth():
         F1 = [ [ item[0], item[1] ] for item in F1 ] # F1 = [ ['a', 2],....,['f',4] ]
         for item in F1:
             self.__update_FreqItemsets([{item[0]}])
-            self.__FreqCountDB.update({ item[0] : item[1] })
+            self.__FreqCountDB.update({ str({item[0]}) : item[1] })
         # find other frequent patterns
         itemset = set()
         for item in F1:
@@ -147,18 +158,28 @@ class FPGrowth():
         '''
         if len(self.__FreqItemsets) == 0:
             raise ValueError('Frequent Itemsets list is empty ! Can not generate any rule !')
-
+        for item in self.__FreqItemsets:
+            if len(item) == 1:
+                continue
+            for n in range(1,len(item)):
+                n_subset = self.__find_subset(item, n)
+                for subset in n_subset:
+                    conf = self.__FreqCountDB[str(item)] / self.__FreqCountDB[str(subset)]
+                    if conf >= self.__min_conf:
+                        yield [subset, item.symmetric_difference(subset), float(conf), self.__FreqCountDB[str(item)] ]
 
 
 if __name__ == '__main__':
     try:
         KAGGLE_DATA_PATH='Assignment1/GroceryStoreDataSet.csv'
         DB = KaggleReader.DataReader(KAGGLE_DATA_PATH)
-        FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.66)
+        FP_G = FPGrowth(DB, min_sup=0.2, min_conf=0.4)
         FP_G.Run_FPGrowth()
         #print(FP_G.GetFPTree().GetRoot().__str__())
         for i in FP_G.Get_FreqItemsets():
             print(i)
+        for i,rule in enumerate(FP_G.RuleGenerator()):
+            print("Rule Num {:<}: {} -> {} conf: {:<.3f} sup: {:<}".format(i+1 , rule[0], rule[1], rule[2], rule[3]))
     except ValueError as e:
         print(str(e))
     except NotImplementedError as e2:
