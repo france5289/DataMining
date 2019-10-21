@@ -71,18 +71,7 @@ class FPGrowth():
         ck.clear()
         return newck
     
-    def __find_subset(self, item, k):
-        '''
-        Helper function to find subset of item with cardinality k
-        ex: k = 2 -> find subsets with cardinality 2 \n
-        Parameter :
-            item(set)
-            k(int)
-        Return :
-            (list of sets) : subsets of item with cardinality k
-        '''
-        return  [ set(i) for i in itertools.combinations(item, k) ]
-
+    
     def __ConstructFPTree(self):
         '''
         When we get OrderedDB use this method to construct FPTree \n
