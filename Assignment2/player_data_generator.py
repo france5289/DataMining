@@ -23,17 +23,17 @@ class PlayerDataGenerator:
         # dataset = pd.DataFrame(columns=self.attrs)
         random.seed(seed)
         rows = {}
-        rows['AB'] = [ random.randint(100,700)  for _ in range(500) ]
-        rows['H'] = [ random.randint(50,200) for _ in range(500) ]
-        rows['2B'] = [ random.randint(0,50) for _ in range(500) ]
-        rows['3B'] = [ random.randint(0,20) for _ in range(500) ]
-        rows['HR'] = [ random.randint(0,60) for _ in range(500) ]
-        rows['RBI'] = [ random.randint(0,150) for _ in range(500) ]
-        rows['SB'] = [ random.randint(1,45) for _ in range(500) ]
-        rows['BB'] = [ random.randint(1,150) for _ in range(500) ]
-        rows['SO'] = [ random.randint(1,200) for _ in range(500) ]
-        rows['HBP'] = [ random.randint(0,30) for _ in range(500) ]
-        rows['SF'] = [ random.randint(0,15) for _ in range(500) ]
+        rows['AB'] = [ random.randint(100,700)  for _ in range(player_num) ]
+        rows['H'] = [ random.randint(50,200) for _ in range(player_num) ]
+        rows['2B'] = [ random.randint(0,50) for _ in range(player_num) ]
+        rows['3B'] = [ random.randint(0,20) for _ in range(player_num) ]
+        rows['HR'] = [ random.randint(0,60) for _ in range(player_num) ]
+        rows['RBI'] = [ random.randint(0,150) for _ in range(player_num) ]
+        rows['SB'] = [ random.randint(1,45) for _ in range(player_num) ]
+        rows['BB'] = [ random.randint(1,150) for _ in range(player_num) ]
+        rows['SO'] = [ random.randint(1,200) for _ in range(player_num) ]
+        rows['HBP'] = [ random.randint(0,30) for _ in range(player_num) ]
+        rows['SF'] = [ random.randint(0,15) for _ in range(player_num) ]
         dataset = pd.DataFrame(rows)
         dataset['BA'] = dataset['H'] / dataset['AB']
         dataset['OBP'] = ( dataset['H'] + dataset['BB'] + dataset['HBP'] ) / ( dataset['AB'] + dataset['BB'] + dataset['HBP'] + dataset['SF'] )
