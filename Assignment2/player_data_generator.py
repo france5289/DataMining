@@ -6,11 +6,11 @@ import pandas as pd
 import os
 import random
 from tqdm import tqdm
-class BattingDataGenerator:
+class PlayerDataGenerator:
     def __init__(self):        
         pass
-
-    def Generate(self, player_num=500,seed=42):
+    @staticmethod
+    def Batting_data_Generate(player_num=500,seed=42):
         '''
         given number of players to generate players' data
 
@@ -63,6 +63,6 @@ class BattingDataGenerator:
         return dataset
 
 if __name__ == '__main__':
-    datagenerator = BattingDataGenerator()
-    data = datagenerator.Generate()
+    datagenerator = PlayerDataGenerator()
+    data = datagenerator.Batting_data_Generate()
     print(data.head())
