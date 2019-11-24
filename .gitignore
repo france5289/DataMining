@@ -2,7 +2,7 @@
 /Assignment1/*.exe
 /.DS_Store
 /Assignment1/.DS_Store
-venv
+DMvenv
 /.vscode
 /Assignment1/__pycache__
 Assignment1/output_500.data
@@ -12,3 +12,5 @@ Assignment1/output_500.data
 /Assignment1/data.py
 /Assignment1/plotcomp.py
 /Assignment1/*.html
+Assignment2/Batting
+Assignment2/Batting.png
