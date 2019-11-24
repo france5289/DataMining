@@ -8,19 +8,20 @@ from sklearn.linear_model import LogisticRegressionCV
 if __name__ == '__main__':
     train = PlayerDataGenerator.Batting_data_Generate(player_num=1000)
     train.drop(['OBP', 'SLG', 'OPS', 'BA', 'SB', 'SO', 'RBI'], axis = 1, inplace = True)
-    train_X = train.drop(['Rank'], axis=1)
-    features = train_X.columns
-    train_y = train['Rank']
-    X = train_X.to_numpy()
-    y = train_y.to_numpy()
+    X = train.drop(['Rank'], axis=1)
+    features = X.columns
+    y = train['Rank']
+    X = X.to_numpy()
+    y = y.to_numpy()
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.1, random_state=42)
     print('Generate training data finished! Lets train a Decision Tree!')
     tree_clf = DecisionTreeClassifier(random_state=42, max_depth=4)
+    tree_clf.fit(X_train,y_train)
     print('Run cross validation!')
-    f1_scores = cross_val_score(tree_clf, X, y, cv=10, scoring='f1_micro') 
+    f1_scores = cross_val_score(tree_clf, X_train, y_train, cv=10, scoring='f1_micro') 
     tree_f1_mean = f1_scores.mean()
     print(f'Decision Tree Classifier mean F1 score: {tree_f1_mean}')
-    tree_clf.fit(X,y)
     tree_graph = export_graphviz(tree_clf, out_file='Batting', feature_names=features, class_names=['A', 'B', 'C'])
     print('Now use Softmax Regression!')
-    Softmax_clf = LogisticRegressionCV(cv=10, multi_class='multinomial', random_state=42, Cs=5).fit(X,y)
-    print(f'Softmax regression F1 score: {Softmax_clf.score(X,y)}')
+    Softmax_clf = LogisticRegressionCV(cv=10, multi_class='multinomial', random_state=42, Cs=5, scoring='f1_micro').fit(X_train,y_train)
+    print(f'Softmax regression F1 score: {Softmax_clf.score(X_test,y_test)}')
