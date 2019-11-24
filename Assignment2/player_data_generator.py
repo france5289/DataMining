@@ -23,6 +23,7 @@ class PlayerDataGenerator:
         # dataset = pd.DataFrame(columns=self.attrs)
         random.seed(seed)
         rows = {}
+        tqdm.pandas()
         rows['AB'] = [ random.randint(100,700)  for _ in range(player_num) ]
         rows['H'] = [ random.randint(50,200) for _ in range(player_num) ]
         rows['2B'] = [ random.randint(0,50) for _ in range(player_num) ]
@@ -52,7 +53,7 @@ class PlayerDataGenerator:
             else:
                 return 'C'
         
-        dataset['Rank'] = dataset['OPS'].apply(func=Evaluate)    
+        dataset['Rank'] = dataset['OPS'].progress_apply(func=Evaluate)    
         return dataset
 
 if __name__ == '__main__':
