@@ -43,12 +43,12 @@ class PlayerDataGenerator:
         dataset.drop(dataset[dataset['OPS'] >= 2].index, inplace=True) # drop outliers
         stats = dataset.describe()
         ops_75 = stats['OPS']['75%']
-        ops_50 = stats['OPS']['50%']
-        
+        # ops_50 = stats['OPS']['50%']
+        ops_mean = stats['OPS']['mean']
         def Evaluate(ops):
             if ops >= ops_75 :
                 return 'A'
-            elif ops >= ops_50 and ops < ops_75:
+            elif ops >= ops_mean and ops < ops_75:
                 return 'B'
             else:
                 return 'C'
