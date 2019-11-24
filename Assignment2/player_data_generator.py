@@ -41,25 +41,18 @@ class PlayerDataGenerator:
         dataset['OPS'] = dataset['OBP'] + dataset['SLG']
         dataset.drop(dataset[dataset['OPS'] >= 2].index, inplace=True) # drop outliers
         stats = dataset.describe()
-        ops_max = stats['OPS']['max']
         ops_75 = stats['OPS']['75%']
-        ops_S = ( ops_75 + ops_max ) / 2
         ops_50 = stats['OPS']['50%']
-        ops_25 = stats['OPS']['25%']
         
         def Evaluate(ops):
-            if ops >= ops_S and ops <= ops_max :
-                return 'S'
-            elif ops >= ops_75 and ops < ops_S :
+            if ops >= ops_75 :
                 return 'A'
-            elif ops >= ops_50 and ops < ops_75 :
+            elif ops >= ops_50 and ops < ops_75:
                 return 'B'
-            elif ops >= ops_25 and ops < ops_50 :
-                return 'C'
             else:
-                return 'E'
-        dataset['Rank'] = dataset['OPS'].apply(func=Evaluate)
-            
+                return 'C'
+        
+        dataset['Rank'] = dataset['OPS'].apply(func=Evaluate)    
         return dataset
 
 if __name__ == '__main__':
