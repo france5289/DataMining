@@ -5,6 +5,8 @@ from sklearn.model_selection import train_test_split
 from sklearn.model_selection import cross_val_score
 from sklearn.tree import export_graphviz
 from sklearn.linear_model import LogisticRegressionCV
+import pydotplus
+from sklearn.externals.six import StringIO 
 if __name__ == '__main__':
     train = PlayerDataGenerator.Batting_data_Generate(player_num=1000)
     train.drop(['OBP', 'SLG', 'OPS', 'BA', 'SB', 'SO', 'RBI'], axis = 1, inplace = True)
@@ -21,7 +23,11 @@ if __name__ == '__main__':
     f1_scores = cross_val_score(tree_clf, X_train, y_train, cv=10, scoring='f1_micro') 
     tree_f1_mean = f1_scores.mean()
     print(f'Decision Tree Classifier mean F1 score: {tree_f1_mean}')
-    tree_graph = export_graphviz(tree_clf, out_file='Batting', feature_names=features, class_names=['A', 'B', 'C'])
+    treeDataPath = './tree.pdf'
+    dot_data = StringIO()
+    export_graphviz(tree_clf, out_file=dot_data, filled=True, feature_names=features, class_names=['A', 'B', 'C'], special_characters=True)
+    graph = pydotplus.graph_from_dot_data(dot_data.getvalue())  
+    graph.write_pdf(treeDataPath)
     print('Now use Softmax Regression!')
     Softmax_clf = LogisticRegressionCV(cv=10, multi_class='multinomial', random_state=42, Cs=5, scoring='f1_micro').fit(X_train,y_train)
     print(f'Softmax regression F1 score: {Softmax_clf.score(X_test,y_test)}')
