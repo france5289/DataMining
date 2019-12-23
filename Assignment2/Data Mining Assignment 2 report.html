@@ -77,7 +77,7 @@ OPS = SLG + OBP
 接著我們將<code>Rank</code>欄位與其他欄位分開，產生輸入資料集<code>X</code>與 label data <code>y</code>。<br>
 <img src="https://i.imgur.com/sSK7YtJ.png" alt=""></p><p><img src="https://i.imgur.com/RlGRzWa.png" alt=""><br>
 最後透過<code>scikit-learn</code>中的<code>train_test_split</code>產生 training 與 testing dataset。<br>
-<img src="https://i.imgur.com/rQzf4HY.png" alt=""></p><h1 id="實驗結果"><a class="anchor hidden-xs" href="#實驗結果" title="實驗結果"><span class="octicon octicon-link"></span></a>實驗結果</h1><h2 id="Decision-Tree"><a class="anchor hidden-xs" href="#Decision-Tree" title="Decision-Tree"><span class="octicon octicon-link"></span></a>Decision Tree</h2><h3 id="模型參數設定"><a class="anchor hidden-xs" href="#模型參數設定" title="模型參數設定"><span class="octicon octicon-link"></span></a>模型參數設定</h3><ul>
+<img src="https://i.imgur.com/rQzf4HY.png" alt=""></p><h1 id="實驗結果0"><a class="anchor hidden-xs" href="#實驗結果0" title="實驗結果0"><span class="octicon octicon-link"></span></a>實驗結果</h1><h2 id="Decision-Tree"><a class="anchor hidden-xs" href="#Decision-Tree" title="Decision-Tree"><span class="octicon octicon-link"></span></a>Decision Tree</h2><h3 id="模型參數設定0"><a class="anchor hidden-xs" href="#模型參數設定0" title="模型參數設定0"><span class="octicon octicon-link"></span></a>模型參數設定</h3><ul>
 <li><code>random state</code>:42</li>
 <li><code>max_depth</code>:4</li>
 </ul><h3 id="F1_score"><a class="anchor hidden-xs" href="#F1_score" title="F1_score"><span class="octicon octicon-link"></span></a>F1_score</h3><p>透過 10 fold cross validation 計算平均 <code>F1 Score</code>:</p><pre><code class="zsh hljs"><span class="hljs-selector-tag">Decision</span> <span class="hljs-selector-tag">Tree</span> <span class="hljs-selector-tag">Classifier</span> <span class="hljs-selector-tag">mean</span> <span class="hljs-selector-tag">F1</span> <span class="hljs-selector-tag">score</span>: 0<span class="hljs-selector-class">.7873949579831933</span>
@@ -95,7 +95,7 @@ s_k(x) = (\theta^{(k)})^Tx \\
 \scriptsize{\text{softmax function}} \\ 
 \hat{y} = \underset{x}{\arg\max}\ \sigma(s(x))_k = \underset{k}{\arg\max}\ s_k(x) \\ 
 \scriptsize{\text{Softmax prediction function}f}
-</script></span></p><h2 id="模型參數設定1"><a class="anchor hidden-xs" href="#模型參數設定1" title="模型參數設定1"><span class="octicon octicon-link"></span></a>模型參數設定</h2><p>使用 scikit-learn 中的 <code>LogisticRegressionCV</code> 建立一個 Logistic Regression model 且內建 cross validation 功能。而我們只需要將 <code>multi_class</code> 這個參數設為 <code>multinomial</code> 即為 Softmax Regression model。</p><h3 id="參數設定值"><a class="anchor hidden-xs" href="#參數設定值" title="參數設定值"><span class="octicon octicon-link"></span></a>參數設定值</h3><ol>
+</script></span></p><h3 id="模型參數設定"><a class="anchor hidden-xs" href="#模型參數設定" title="模型參數設定"><span class="octicon octicon-link"></span></a>模型參數設定</h3><p>使用 scikit-learn 中的 <code>LogisticRegressionCV</code> 建立一個 Logistic Regression model 且內建 cross validation 功能。而我們只需要將 <code>multi_class</code> 這個參數設為 <code>multinomial</code> 即為 Softmax Regression model。</p><h3 id="參數設定值"><a class="anchor hidden-xs" href="#參數設定值" title="參數設定值"><span class="octicon octicon-link"></span></a>參數設定值</h3><ol>
 <li><code>cv</code>:<code>10</code><br>
 進行 10 fold cross validation</li>
 <li><code>multi_class</code>:<code>multinomial</code><br>
@@ -105,7 +105,7 @@ s_k(x) = (\theta^{(k)})^Tx \\
 regularization scale</li>
 <li><code>scoring</code>:<code>f1_micro</code><br>
 使用 <code>F1_micro</code> 計算 F1 score</li>
-</ol><h2 id="實驗結果1"><a class="anchor hidden-xs" href="#實驗結果1" title="實驗結果1"><span class="octicon octicon-link"></span></a>實驗結果</h2><p><img src="https://i.imgur.com/gGTSzAn.png" alt=""></p><pre><code class="zsh hljs"><span class="hljs-selector-tag">Softmax</span> <span class="hljs-selector-tag">regression</span> <span class="hljs-selector-tag">F1</span> <span class="hljs-selector-tag">score</span>: 0<span class="hljs-selector-class">.9871794871794872</span>
+</ol><h3 id="實驗結果"><a class="anchor hidden-xs" href="#實驗結果" title="實驗結果"><span class="octicon octicon-link"></span></a>實驗結果</h3><p><img src="https://i.imgur.com/gGTSzAn.png" alt=""></p><pre><code class="zsh hljs"><span class="hljs-selector-tag">Softmax</span> <span class="hljs-selector-tag">regression</span> <span class="hljs-selector-tag">F1</span> <span class="hljs-selector-tag">score</span>: 0<span class="hljs-selector-class">.9871794871794872</span>
 </code></pre><p>從<code>F1 Score</code> 可以發現 Softmax Regression 表現得十分突出，在這次分三類的問題上表現幾乎完美。然而也許是因為這次的實驗數據設計的較好，使得 label 之間是互斥的，若 label class 之間並不是互斥關係，則 Softmax Regression 可能就沒辦法有這麼漂亮的表現。因為 Softmax Regression 一次只能 predict 一個類別，所以在 label class 之間有互斥關係的情況下，Softmax Regression 才能有好的 performance。</p></div>
     <div class="ui-toc dropup unselectable hidden-print" style="display:none;">
         <div class="pull-right dropdown">
@@ -122,20 +122,20 @@ regularization scale</li>
 <li><a href="#訓練與測試資料生成" title="訓練與測試資料生成">訓練與測試資料生成</a></li>
 </ul>
 </li>
-<li class=""><a href="#實驗結果" title="實驗結果">實驗結果</a><ul class="nav">
-<li class=""><a href="#Decision-Tree" title="Decision Tree">Decision Tree</a><ul class="nav">
-<li class=""><a href="#模型參數設定" title="模型參數設定">模型參數設定</a></li>
+<li class=""><a href="#實驗結果0" title="實驗結果">實驗結果</a><ul class="nav">
+<li><a href="#Decision-Tree" title="Decision Tree">Decision Tree</a><ul class="nav">
+<li><a href="#模型參數設定0" title="模型參數設定">模型參數設定</a></li>
 <li><a href="#F1_score" title="F1_score">F1_score</a></li>
 <li><a href="#Decision-Tree-決策過程" title="Decision Tree 決策過程">Decision Tree 決策過程</a></li>
 <li><a href="#Decision-Tree-決策過程分析" title="Decision Tree 決策過程分析">Decision Tree 決策過程分析</a></li>
 </ul>
 </li>
-<li><a href="#Softmax-Regression" title="Softmax Regression">Softmax Regression</a></li>
-<li><a href="#模型參數設定1" title="模型參數設定">模型參數設定</a><ul class="nav">
+<li class=""><a href="#Softmax-Regression" title="Softmax Regression">Softmax Regression</a><ul class="nav">
+<li class=""><a href="#模型參數設定" title="模型參數設定">模型參數設定</a></li>
 <li><a href="#參數設定值" title="參數設定值">參數設定值</a></li>
+<li><a href="#實驗結果" title="實驗結果">實驗結果</a></li>
 </ul>
 </li>
-<li><a href="#實驗結果1" title="實驗結果">實驗結果</a></li>
 </ul>
 </li>
 </ul>
@@ -153,20 +153,20 @@ regularization scale</li>
 <li><a href="#訓練與測試資料生成" title="訓練與測試資料生成">訓練與測試資料生成</a></li>
 </ul>
 </li>
-<li class=""><a href="#實驗結果" title="實驗結果">實驗結果</a><ul class="nav">
-<li class=""><a href="#Decision-Tree" title="Decision Tree">Decision Tree</a><ul class="nav">
-<li class=""><a href="#模型參數設定" title="模型參數設定">模型參數設定</a></li>
+<li class=""><a href="#實驗結果0" title="實驗結果">實驗結果</a><ul class="nav">
+<li><a href="#Decision-Tree" title="Decision Tree">Decision Tree</a><ul class="nav">
+<li><a href="#模型參數設定0" title="模型參數設定">模型參數設定</a></li>
 <li><a href="#F1_score" title="F1_score">F1_score</a></li>
 <li><a href="#Decision-Tree-決策過程" title="Decision Tree 決策過程">Decision Tree 決策過程</a></li>
 <li><a href="#Decision-Tree-決策過程分析" title="Decision Tree 決策過程分析">Decision Tree 決策過程分析</a></li>
 </ul>
 </li>
-<li><a href="#Softmax-Regression" title="Softmax Regression">Softmax Regression</a></li>
-<li><a href="#模型參數設定1" title="模型參數設定">模型參數設定</a><ul class="nav">
+<li class=""><a href="#Softmax-Regression" title="Softmax Regression">Softmax Regression</a><ul class="nav">
+<li class=""><a href="#模型參數設定" title="模型參數設定">模型參數設定</a></li>
 <li><a href="#參數設定值" title="參數設定值">參數設定值</a></li>
+<li><a href="#實驗結果" title="實驗結果">實驗結果</a></li>
 </ul>
 </li>
-<li><a href="#實驗結果1" title="實驗結果">實驗結果</a></li>
 </ul>
 </li>
 </ul>
