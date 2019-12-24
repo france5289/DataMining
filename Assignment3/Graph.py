@@ -1,9 +1,4 @@
-import abc
-
 import numpy as np
-
-
-
 class NetworkGraph():
     def __init__(self):
         self.graph = None
@@ -45,7 +40,7 @@ class NetworkGraph():
         Args:
         --------
             d(float) : dampling factor, default=0.15
-            criteria(float) : under what circumstances do iteration stop, '0.1' means norm of x_new and x_old < 0.1
+            criteria(float) : under what circumstances do iteration stop, '0.1' means norm of x_new and x_old leq 0.1
         """
         A = self.graph.T
         norm_vec = np.linalg.norm(A, ord=1, axis=0)
