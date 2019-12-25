@@ -33,7 +33,7 @@ class NetworkGraph():
             n1, n2 = edge
             self.graph[int(n1)-1][int(n2)-1] = 1
     
-    def PageRank(self, d: float = 0.15, criteria: float = 0.1):
+    def PageRank(self, d: float = 0.15, criteria: float = 0.01):
         """
         Implement PageRank with Power Method
 
@@ -41,31 +41,72 @@ class NetworkGraph():
         --------
             d(float) : dampling factor, default=0.15
             criteria(float) : under what circumstances do iteration stop, '0.1' means norm of x_new and x_old leq 0.1
+        Return:
+        --------
+            x(np.array) : 1-d vector, PageRank Value of every node
         """
         A = self.graph.T
+        nodenum = A.shape[0]
         norm_vec = np.linalg.norm(A, ord=1, axis=0)
         A = np.nan_to_num(A / norm_vec)
-        S = np.ones(shape=(A.shape[0], A.shape[0]))
-        S = S / S.shape[0]
+        S = np.full((nodenum, nodenum), 1/nodenum )
         M = ( 1 - d ) * A + d * S
-        x_old = np.random.rand( A.shape[0] )
-        x_old = x_old / np.linalg.norm(x_old, ord=1)
-        x_new = np.zeros( A.shape[0] )
+        x = np.random.rand( nodenum )
+        x = x / np.linalg.norm(x, ord=1)
         # Start power iteration
         count = 0
-        while np.linalg.norm(x_new - x_old) > criteria:
+        while True:
             count += 1
-            temp = np.copy(x_new)
-            x_new = M @ x_old
-            x_old = temp
-        
-        print(f'Criteria:{criteria}')
-        print(f'Num of iteration:{count}')
-        return x_new
+            prev = np.copy(x)
+            x = M @ x
+            if np.linalg.norm(x - prev) <= criteria:
+                print(f'Criteria:{criteria}')
+                print(f'Num of iteration:{count}')
+                return x
 
 
-    def HITS(self):
-        raise NotImplementedError
+    def HITS(self, criteria: float = 0.01):
+        """
+        Implement HITS with Power Method
+
+        Args:
+        --------
+            criteria(float) : criteria(float) : under what circumstances do iteration stop, '0.1' means norm of x_new and x_old leq 0.1
+        Return:
+        --------
+            a(np.array) : 1-dim vector of authority
+            h(np.array) : 1-dim vector of hub
+        """
+        A = self.graph
+        A_T = A.T
+        nodenum = A.shape[0]
+        Au = A_T @ A
+        Hu = A @ A_T
+        a = np.ones(nodenum)
+        h = np.ones(nodenum)
+
+        # Find authority
+        count = 0
+        while True:
+            count += 1
+            prev = np.copy(a)
+            a = Au @ a
+            a = a / np.linalg.norm(a, ord=1)
+            if np.linalg.norm( a - prev ) <= criteria:
+                print(f'Iterations of authority finding:{count}')
+                break
+        # Find Hub
+        count = 0
+        while True:
+            count += 1
+            prev = np.copy(h)
+            h = Hu @ h
+            h = h / np.linalg.norm(h, ord=1)
+            if np.linalg.norm( h - prev ) <= criteria:
+                print(f'Iterations of hub finding:{count}')
+                break
+        return a, h
+
 
     def SimRank(self):
         raise NotImplementedError
@@ -74,4 +115,8 @@ if __name__ == "__main__":
     test_dir = 'Assignment3/project3dataset/hw3dataset/graph_1.txt'
     mygraph = NetworkGraph()
     mygraph.load_from_file(test_dir)
-    print(mygraph.PageRank())
+    print(f'PageRank:{mygraph.PageRank()}')
+
+    authority, hub = mygraph.HITS(criteria=0.1)
+    print(f'Authority:{authority}')
+    print(f'Hub:{hub}')
