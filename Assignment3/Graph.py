@@ -112,11 +112,10 @@ class NetworkGraph():
         raise NotImplementedError
 
 if __name__ == "__main__":
-    test_dir = 'Assignment3/project3dataset/hw3dataset/graph_1.txt'
+    test_dir = 'Assignment3/project3dataset/hw3dataset/graph_6.txt'
     mygraph = NetworkGraph()
     mygraph.load_from_file(test_dir)
     print(f'PageRank:{mygraph.PageRank()}')
-
     authority, hub = mygraph.HITS(criteria=0.1)
     print(f'Authority:{authority}')
     print(f'Hub:{hub}')
