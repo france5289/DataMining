@@ -84,7 +84,7 @@ class NetworkGraph():
         Hu = A @ A_T
         a = np.ones(nodenum)
         h = np.ones(nodenum)
-
+        #==============================================
         # Find authority
         count = 0
         while True:
