@@ -61,8 +61,8 @@ class NetworkGraph():
             prev = np.copy(x)
             x = M @ x
             if np.linalg.norm(x - prev) <= criteria:
-                print(f'Criteria:{criteria}')
-                print(f'Num of iteration:{count}')
+                print(f'Criteria of PageRank:{criteria}')
+                print(f'Iterations of PageRank:{count}')
                 return x
 
 
@@ -87,6 +87,7 @@ class NetworkGraph():
         h = np.ones(nodenum)
         #==============================================
         # Find authority
+        print(f'Criteria of HITS: {criteria}')
         count = 0
         while True:
             count += 1
@@ -94,7 +95,7 @@ class NetworkGraph():
             a = Au @ a
             a = a / np.linalg.norm(a, ord=1)
             if np.linalg.norm( a - prev ) <= criteria:
-                print(f'Iterations of authority finding:{count}')
+                print(f'Iterations of Authority finding:{count}')
                 break
         # Find Hub
         count = 0
@@ -104,7 +105,7 @@ class NetworkGraph():
             h = Hu @ h
             h = h / np.linalg.norm(h, ord=1)
             if np.linalg.norm( h - prev ) <= criteria:
-                print(f'Iterations of hub finding:{count}')
+                print(f'Iterations of Hub finding:{count}')
                 break
         return a, h
 
@@ -134,7 +135,8 @@ class NetworkGraph():
             S = c * Q @ S @ Q_T
             S = S + I - np.diag( np.diag( S ) )
             if np.linalg.norm( S - prev ) <= criteria:
-                print(f'Num of Iteration of SimRank:{count}')
+                print(f'Criteria of SimRank:{criteria}')
+                print(f'Iterations of SimRank:{count}')
                 return S
 
 
