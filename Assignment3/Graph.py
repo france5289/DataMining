@@ -1,4 +1,5 @@
 import numpy as np
+import sys
 class NetworkGraph():
     def __init__(self):
         self.graph = None
@@ -108,14 +109,46 @@ class NetworkGraph():
         return a, h
 
 
-    def SimRank(self):
-        raise NotImplementedError
+    def SimRank(self, c: float = 0.5, criteria: float = 0.01):
+        """
+        Implement SimRank with Matrix Representation
+
+        Args:
+        --------
+            c(float) : decay factor
+            criteria(float) : loop condition
+        """
+        if c >= 1 or c <= 0:
+            raise ValueError('Error! Invalid Decay Factor of SimRank!')
+        Q = self.graph.T
+        nodenum = Q.shape[0]
+        Q = np.nan_to_num( Q / np.linalg.norm(Q, ord=1, axis=0) )
+        Q_T = Q.T
+        S = np.identity( nodenum )
+        I = np.identity( nodenum )
+        # SimRank Matrix Representation
+        count = 0
+        while True:
+            count += 1
+            prev = np.copy(S)
+            S = c * Q @ S @ Q_T
+            S = S + I - np.diag( np.diag( S ) )
+            if np.linalg.norm( S - prev ) <= criteria:
+                print(f'Num of Iteration of SimRank:{count}')
+                return S
+
+
+
 
 if __name__ == "__main__":
     test_dir = 'Assignment3/project3dataset/hw3dataset/graph_1.txt'
     mygraph = NetworkGraph()
     mygraph.load_from_file(test_dir)
-    print(f'PageRank:{mygraph.PageRank()}')
+    print(f'PageRank\n:{mygraph.PageRank()}')
     authority, hub = mygraph.HITS()
-    print(f'Authority:{authority}')
-    print(f'Hub:{hub}')
+    print(f'Authority:\n{authority}')
+    print(f'Hub:\n{hub}')
+    print('SimRank:\n')
+    S = mygraph.SimRank( c = 0.6, criteria = 0.001 )
+    np.set_printoptions(threshold=sys.maxsize)
+    print(S)
