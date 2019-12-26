@@ -23,6 +23,7 @@ if __name__ == "__main__":
     G4_path = os.path.join(DATA_PATH, 'graph_4.txt')
     G5_path = os.path.join(DATA_PATH, 'graph_5.txt')
     G6_path = os.path.join(DATA_PATH, 'graph_6.txt')
+    G7_path = os.path.join(DATA_PATH, 'output.data')
     # ========== Argument Parser Setting ===========
     parser = argparse.ArgumentParser()
     parser.add_argument('-p', '--profile', help='run profiling mode', action='store_true')
@@ -45,7 +46,7 @@ if __name__ == "__main__":
         elif gnum == '6':
             mygraph.load_from_file(G6_path)
         elif gnum == '7':
-            raise NotImplementedError('gunm == 7 ??')
+            mygraph.load_from_IBM(G7_path)
         elif gnum == '-1':
             print('Bye Bye')
             break

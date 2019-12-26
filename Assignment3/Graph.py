@@ -1,9 +1,56 @@
-import numpy as np
 import sys
+
+import numpy as np
+
+from IBMReader import DataReader
+
+
 class NetworkGraph():
     def __init__(self):
         self.graph = None
 
+    def insert_edge(self, v1, v2):
+        """
+        insert a directed edge form vertex 1 to vertex 2
+        Raise ValueError when node not exist
+
+        Args:
+        -------------
+            v1(int) : vertex number
+            v2(int) : vertex number
+        """
+        if v1 < 1 or v1 > self.graph.shape[0]:
+            raise ValueError('Invalid vertex!')
+        if v2 < 1 or v2 > self.graph.shape[0]:
+            raise ValueError('Invalid vertex!')
+        if type(v1) is not int or type(v2) is not int:
+            raise TypeError('Invalid vertex type')
+        if self.graph[v1-1, v2-1] == 1:
+            #print('Edge has already existed!')
+            return
+        self.graph[v1-1, v2-1] = 1
+
+    def remove_edge(self, v1, v2):
+        """
+        Remove a directed edge from vertex 1 to vertex 2
+        Raise ValueError when node not exist
+
+        Args:
+        ------------
+            v1(int) : vertex number
+            v2(int) : vertex number
+        """
+        if v1 < 1 or v1 > self.graph.shape[0]:
+            raise ValueError('Invalid vertex!')
+        if v2 < 1 or v2 > self.graph.shape[0]:
+            raise ValueError('Invalid vertex!')
+        if type(v1) is not int or type(v2) is not int:
+            raise TypeError('Invalid vertex type')
+        if self.graph[v1-1, v2-1] == 0:
+            #print('Edge has not existed!')
+            return
+        self.graph[v1-1, v2-1] = 0
+    
     def load_from_file(self,fileaname):
         """
         Load a graph from dataset, and set self.graph as a numpy adjacency matrix 
@@ -34,6 +81,20 @@ class NetworkGraph():
             n1, n2 = edge
             self.graph[int(n1)-1][int(n2)-1] = 1
     
+    def load_from_IBM(self, filename):
+        transactions = DataReader(filename)
+        # ======= Count Nodes ===========
+        nodes = set()
+        for v in transactions.values():
+            for node in v:
+                nodes.add(int(node))
+        self.graph = np.zeros(shape=(max(nodes), max(nodes)))
+        # ======= Insert Edges ==========
+        for v in transactions.values():
+            for i in range(len(v)):
+                for j in range(i+1, len(v)):
+                    self.insert_edge( v1 = int( v[i] ), v2 = int( v[j] ))
+
     def PageRank(self, d: float = 0.15, criteria: float = 0.01):
         """
         Implement PageRank with Power Method
