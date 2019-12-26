@@ -40,7 +40,7 @@ class NetworkGraph():
 
         Args:
         --------
-            d(float) : dampling factor, default=0.15
+            d(float) : damping factor, default=0.15
             criteria(float) : under what circumstances do iteration stop, '0.1' means norm of x_new and x_old leq 0.1
         Return:
         --------
@@ -61,6 +61,7 @@ class NetworkGraph():
             prev = np.copy(x)
             x = M @ x
             if np.linalg.norm(x - prev) <= criteria:
+                print(f'Damping Factor:{d}')
                 print(f'Criteria of PageRank:{criteria}')
                 print(f'Iterations of PageRank:{count}')
                 return x
@@ -135,6 +136,7 @@ class NetworkGraph():
             S = c * Q @ S @ Q_T
             S = S + I - np.diag( np.diag( S ) )
             if np.linalg.norm( S - prev ) <= criteria:
+                print(f'Decay Factor:{c}')
                 print(f'Criteria of SimRank:{criteria}')
                 print(f'Iterations of SimRank:{count}')
                 return S
