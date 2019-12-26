@@ -79,9 +79,17 @@ class NetworkGraph():
         self.graph = np.zeros(shape=(len(nodes), len(nodes)))
         for edge in edges:
             n1, n2 = edge
-            self.graph[int(n1)-1][int(n2)-1] = 1
+            # self.graph[int(n1)-1][int(n2)-1] = 1
+            self.insert_edge( v1 = int(n1), v2 = int(n2) )
     
     def load_from_IBM(self, filename):
+        """
+        load IBM dataset and create a digraph with bi-direct edges
+
+        Args:
+        --------
+            filename(string): filename
+        """
         transactions = DataReader(filename)
         # ======= Count Nodes ===========
         nodes = set()
@@ -94,6 +102,7 @@ class NetworkGraph():
             for i in range(len(v)):
                 for j in range(i+1, len(v)):
                     self.insert_edge( v1 = int( v[i] ), v2 = int( v[j] ))
+                    self.insert_edge( v1 = int( v[j] ), v2 = int( v[i] ))
 
     def PageRank(self, d: float = 0.15, criteria: float = 0.01):
         """

@@ -73,4 +73,16 @@ if __name__ == "__main__":
             print('Now Run Profiling on SimRank')
             input('Press any key to start')
             cProfile.run('mygraph.SimRank()')
-        
+        # ============== Increase PageRank, Authority and Hub ======
+        if gnum == '1':
+            print('Add extra edge to node 1 in Grpah 1')
+            print('Add new edges form node 6, 5, ...,2 to node 1 ')
+            for i in range(2,7):
+                mygraph.insert_edge( v1 = i, v2 = 1)
+            print('Now get new PageRank HITS')
+            PRvector = mygraph.PageRank()
+            print(f'PageRank:\n{PRvector}')
+
+            AUTH, HUB = mygraph.HITS()
+            print(f'Authority:\n{AUTH}')
+            print(f'Hub:\n{HUB}')
