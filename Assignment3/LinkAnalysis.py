@@ -80,7 +80,7 @@ if __name__ == "__main__":
             input('Press any key to start')
             cProfile.run('mygraph.SimRank()')
         # ============== Increase PageRank, Authority and Hub ======
-        if gnum == '1':
+        if gnum == '1' or gnum == '2' or gnum == '3':
             print('=======================================')
             print('Add extra edge to node 1 in Grpah 1')
             print('Add new edges form node 6, 5, ...,2 to node 1 ')
