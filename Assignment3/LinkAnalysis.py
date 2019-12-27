@@ -54,27 +54,34 @@ if __name__ == "__main__":
             raise ValueError('Unknown graph!')
         # ============== Run PageRank HITS SimRank =================
         PRvector = mygraph.PageRank()
+        print('=======================================')
         print(f'PageRank:\n{PRvector}')
 
         AUTH, HUB = mygraph.HITS()
+        print('=======================================')
         print(f'Authority:\n{AUTH}')
         print(f'Hub:\n{HUB}')
 
         SRmatrix = mygraph.SimRank()
+        print('=======================================')
         print(f'SimRank:\n{SRmatrix}')
         # ============= Run Profiling if neccessary ================
         if args.profile:
+            print('=======================================')
             print('Now Run Profiling on PageRank')
             input('Press any key to start')
             cProfile.run('mygraph.PageRank()')
+            print('=======================================')
             print('Now Run Profiling on HITS')
             input('Press any key to start')
             cProfile.run('mygraph.HITS()')
+            print('=======================================')
             print('Now Run Profiling on SimRank')
             input('Press any key to start')
             cProfile.run('mygraph.SimRank()')
         # ============== Increase PageRank, Authority and Hub ======
         if gnum == '1':
+            print('=======================================')
             print('Add extra edge to node 1 in Grpah 1')
             print('Add new edges form node 6, 5, ...,2 to node 1 ')
             for i in range(2,7):
@@ -86,3 +93,4 @@ if __name__ == "__main__":
             AUTH, HUB = mygraph.HITS()
             print(f'Authority:\n{AUTH}')
             print(f'Hub:\n{HUB}')
+        print('=======================================')
